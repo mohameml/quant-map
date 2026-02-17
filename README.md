@@ -1,1 +1,1 @@
-# quant-map
+# proba-map

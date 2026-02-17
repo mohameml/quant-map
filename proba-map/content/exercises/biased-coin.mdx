@@ -2,10 +2,12 @@
 id: "biased-coin"
 title: "Biased Coin"
 difficulty: "Medium"
-patterns: ["Bayes' Theorem", "Conditional Probability"]
+patterns: ["conditional-bayes"]
+tags: ["bayes", "classic", "likelihood"]
+order: 1
 ---
 
-## Exercise
+## Problem
 
 We have a set of $100$ coins: only one is biased and has two "heads" faces,
 the other $99$ are fair coins.
@@ -17,17 +19,15 @@ Calculate the probability that the chosen coin is the biased one.
 
 ## Hints
 
-<details>
-	<summary>Hint 1</summary>
-	Define events for choosing the biased coin vs. a fair coin, and an event for
-	getting 10 heads. What are the prior probabilities of each?
-</details>
+<Hint n={1}>
+  Define events for choosing the biased coin vs. a fair coin, and an event for
+  getting 10 heads. What are the prior probabilities of each?
+</Hint>
 
-<details>
-	<summary>Hint 2</summary>
-	Apply Bayes' Theorem. Think carefully about the likelihood of getting 10
-	heads in a row with a fair coin versus the biased coin.
-</details>
+<Hint n={2}>
+  Apply Bayes' Theorem. Think carefully about the likelihood of getting 10
+  heads in a row with a fair coin versus the biased coin.
+</Hint>
 
 ## Solution
 
