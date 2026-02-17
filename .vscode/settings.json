@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"*.mdx": "mdx"
+	},
+	"markdown-preview-enhanced.enableExtendedTableSyntax": true,
+	"markdown-preview-enhanced.mathRenderingOption": "KaTeX"
+}
