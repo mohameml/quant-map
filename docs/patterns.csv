@@ -1,0 +1,50 @@
+number,problem,patterns,difficulty,source
+1,Problème des deux enfants,Conditional Prob & Bayes,easy,Classic
+2,Deux lancers de dé,Counting & Combinatorics,easy,Classic
+3,Pièce biaisée,Conditional Prob & Bayes,easy,Classic
+4,Parité du nombre de piles,Counting & Combinatorics,easy,Classic
+5,Élément choisi au hasard,Linearity of Expectation,easy,Classic
+6,Premier As,Symmetry & Exchangeability | Indicator Variables | Linearity of Expectation,medium,Classic
+7,Minimum de k positions,Counting & Combinatorics | Order Statistics,medium,Classic
+8,Labyrinthe du rat,First-Step Analysis & Recursion | Conditional Expectation,medium,Classic
+9,Trois points sur un cercle,Symmetry & Exchangeability,medium,Classic
+10,Variable à variance maximale dans [-1;1],Continuous Distributions,medium,Classic
+11,Somme de variables uniformes,Continuous Distributions,hard,Classic
+12,Indépendance entre |X| et sign(X) pour une loi normale,Independence | Continuous Distributions,medium,Classic
+13,Durée moyenne d'attente avec deux bus,Continuous Distributions | Joint Distributions,medium,Classic
+14,Gambler's Ruin (simple),Random Walks | First-Step Analysis & Recursion,medium,Classic
+15,Météo à Grenoble,Markov Chains,medium,Classic
+16,Expecting HTH,First-Step Analysis & Recursion | Markov Chains,medium,Classic
+17,Even before Odd,Symmetry & Exchangeability | Conditional Prob & Bayes,medium,Classic
+18,Event A Before Event B,Conditional Prob & Bayes,medium,Classic
+19,Highest Roll EV,Conditional Expectation,medium,Classic
+20,Ten Floor Building,Indicator Variables | Linearity of Expectation,easy,Classic
+21,Temps d'attente (loi géométrique),Discrete Distributions,easy,Classic
+22,Conditional Die Rolls 1,Conditional Prob & Bayes,medium,Classic
+23,Conditional Die Rolls 2,Conditional Prob & Bayes | Conditional Expectation,medium,Classic
+24,Conditional Die Rolls 3,Conditional Prob & Bayes,medium,Classic
+25,Dice Game 1,First-Step Analysis & Recursion,medium,Classic
+26,Ship Destroyer,Counting & Combinatorics | Indicator Variables,hard,Classic
+27,Odd Values Before Even Values,Symmetry & Exchangeability,medium,Classic
+28,Baby and the Couch,Markov Chains,hard,Classic
+29,Stars and Bars,Counting & Combinatorics,easy,Classic
+30,Multiple of Six,First-Step Analysis & Recursion,easy,Classic
+31,Temps moyen pour deux piles consécutives,First-Step Analysis & Recursion | Markov Chains,medium,Classic
+32,Variance de l'abscisse d'un point sur le cercle,Continuous Distributions,easy,Classic
+33,Probabilité conditionnelle avec deux pièces,Conditional Prob & Bayes | Conditional Expectation,medium,Classic
+34,Marche aléatoire sur un cube,Markov Chains | First-Step Analysis & Recursion,medium,Classic
+35,Jeu optimal avec trois lancers de dé,Conditional Expectation,medium,Classic
+36,The Four Boxes Game,Linearity of Expectation,easy,Classic
+37,The Secretary Problem,Order Statistics | Conditional Expectation,hard,Classic
+38,Expected Tosses for Three Heads in a Row,First-Step Analysis & Recursion | Markov Chains,medium,Classic
+39,Expected Tosses for n Heads in a Row (Unfair Coin),First-Step Analysis & Recursion | Markov Chains,hard,Classic
+40,Le Problème du Collectionneur de Coupons,Coupon Collector | Linearity of Expectation | Discrete Distributions,medium,Classic
+41,Gambler's Ruin (full - Martingales),Random Walks | Martingales,hard,Classic
+42,Le Bâton Cassé en Triangle,Continuous Distributions | Joint Distributions,medium,Classic
+43,Le Paradoxe des Anniversaires,Balls & Bins / Birthday,medium,Classic
+44,Voir Toutes les Faces d'un Dé,Coupon Collector | Discrete Distributions,easy,Classic
+45,Fair coin from biased coin (Von Neumann),Independence | Conditional Prob & Bayes,medium,Classic
+46,Paradoxe de Saint-Pétersbourg,Discrete Distributions | Conditional Expectation,medium,Classic
+47,House Selling Problem,Conditional Expectation,hard,Classic
+48,Drunk Man on a Cliff,Random Walks | First-Step Analysis & Recursion,hard,Classic
+49,Random Walk Hitting Time,Random Walks | Martingales,hard,Classic
