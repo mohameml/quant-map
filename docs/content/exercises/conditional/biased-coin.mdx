@@ -1,0 +1,81 @@
+---
+id: "biased-coin"
+title: "Biased Coin"
+difficulty: "Medium"
+patterns: ["conditional"]
+tags: ["bayes", "classic", "likelihood"]
+---
+
+## Problem
+
+We have a set of $100$ coins: only one is biased and has two "heads" faces,
+the other $99$ are fair coins.
+
+A coin is chosen at random and flipped $10$ times.
+It lands on "heads" every time.
+
+Calculate the probability that the chosen coin is the biased one.
+
+## Hints
+
+<Hint n={1}>
+	Define events for choosing the biased coin vs. a fair coin, and an event for
+	getting 10 heads. What are the prior probabilities of each?
+</Hint>
+
+<Hint n={2}>
+	Apply Bayes' Theorem. Think carefully about the likelihood of getting 10
+	heads in a row with a fair coin versus the biased coin.
+</Hint>
+
+## Solution
+
+Let
+
+$$
+U : \{\text{the chosen coin is the biased coin}\}, \quad
+F : \{\text{the chosen coin is a fair coin}\},
+$$
+
+$$
+H : \{\text{all 10 flips land heads}\}.
+$$
+
+The prior probabilities are
+
+$$
+P(U) = \frac{1}{100}, \qquad
+P(F) = \frac{99}{100}.
+$$
+
+By Bayes' formula,
+
+$$
+P(U \mid H)
+= \frac{P(H \mid U)\,P(U)}{P(H \mid U)\,P(U) + P(H \mid F)\,P(F)}.
+$$
+
+Now:
+
+$$
+P(H \mid U) = 1,
+\qquad
+P(H \mid F) = \left(\frac{1}{2}\right)^{10}.
+$$
+
+Substituting the values,
+
+$$
+P(U \mid H)
+= \frac{1 \times \tfrac{1}{100}}{1 \times \tfrac{1}{100} + \left(\tfrac{1}{2}\right)^{10} \times \tfrac{99}{100}}
+= \frac{1}{1 + 99\left(\tfrac{1}{2}\right)^{10}}.
+$$
+
+Since $\left(\tfrac{1}{2}\right)^{10} = \tfrac{1}{1024}$, we obtain
+
+$$
+P(U \mid H)
+= \frac{1}{1 + \dfrac{99}{1024}}
+= \frac{1024}{1024 + 99}
+= \boxed{\dfrac{1024}{1123}}.
+$$

@@ -13,13 +13,57 @@ quant-map/
 ├── .calude/       ← discussion & design notes
 └── proba-map/     ← the Next.js app (everything lives here)
     ├── content/
-    │   ├── topics/      ← 20 MDX files, one per pattern
-    │   └── exercises/   ← 90+ MDX files, one per problem
+    │   ├── topics/                      ← 18 MDX files, one per topic (flat)
+    │   │   ├── combinatorics.mdx
+    │   │   ├── fundamentals.mdx
+    │   │   └── ...
+    │   └── exercises/                   ← subdirectory per topic slug
+    │       ├── combinatorics/
+    │       │   └── two-dice-rolls.mdx
+    │       ├── fundamentals/
+    │       │   └── first-ace.mdx
+    │       ├── conditional-probability/
+    │       │   └── biased-coin.mdx
+    │       └── ...
     └── src/
         ├── lib/
         ├── app/
         └── components/
 ```
+
+---
+
+## 1b. Topic Architecture (18 topics)
+
+Derived from `docs/graph/main.py`. Each topic maps to a node in the roadmap graph.
+
+| Slug | Title | Section | Prerequisites |
+|------|-------|---------|---------------|
+| `combinatorics` | Combinatorics | fondations | — |
+| `fundamentals` | Fundamentals of Probability | fondations | combinatorics |
+| `random-variables` | Random Variables | fondations | fundamentals |
+| `conditional-probability` | Conditional Probability | fondations | fundamentals |
+| `discrete-distributions` | Discrete Distributions | fondations | random-variables |
+| `continuous-distributions` | Continuous Distributions | fondations | random-variables |
+| `joint-distributions` | Joint Distributions & Random Vectors | fondations | continuous-distributions |
+| `convergence` | Convergence | convergence | random-variables |
+| `simulation` | Simulation & Monte Carlo | convergence | joint-distributions |
+| `markov-chains` | Markov Chains | discrets | conditional-probability |
+| `statistics` | Statistical Inference | discrets | convergence |
+| `time-series` | Time Series | discrets | statistics |
+| `conditional-expectation` | Conditional Expectation | continus | conditional-probability |
+| `brownian-motion` | Brownian Motion | continus | continuous-distributions |
+| `martingales` | Martingales | continus | conditional-expectation, brownian-motion |
+| `stopping-times` | Stopping Times | continus | martingales |
+| `ito-calculus` | Itô Calculus | stochastique | martingales |
+| `sdes` | Stochastic Differential Equations | stochastique | ito-calculus |
+
+**Sections** (used for graph node colors):
+- `fondations` — light blue
+- `convergence` — light orange
+- `discrets` — light green
+- `continus` — light purple
+- `stochastique` — light red
 
 ---
 
@@ -38,16 +82,15 @@ order: 2                          # display order in lists
 <!-- optional: course/theory content -->
 ```
 
-### Exercise file — `content/exercises/<slug>.mdx`
+### Exercise file — `content/exercises/<pattern-slug>/<slug>.mdx`
 
 ```yaml
 ---
-id: "biased-coin"                 # = filename slug, keep stable
+id: "biased-coin"                 # = filename stem, keep stable
 title: "Biased Coin"
 difficulty: "Medium"              # "Easy" | "Medium" | "Hard" (Zod-validated)
-patterns: ["conditional-bayes"]   # must match a valid topic slug (Zod-validated at build)
+patterns: ["conditional-bayes"]   # ALL patterns this belongs to (Zod-validated, can be multiple)
 tags: ["bayes", "classic"]        # optional, free-form
-order: 1                          # ordering within the pattern
 ---
 ## Problem
 
@@ -61,7 +104,12 @@ order: 1                          # ordering within the pattern
 ...LaTeX step-by-step solution...
 ```
 
-> **Rule**: `id` field must match the filename (e.g. `biased-coin.mdx` → `id: "biased-coin"`).
+> **Rules**:
+> - `id` = filename stem (e.g. `biased-coin.mdx` → `id: "biased-coin"`)
+> - Directory name = **primary pattern** (where it appears by default)
+> - `patterns` = **all patterns** it belongs to — directory name must be included
+> - Display order within a pattern = sorted by difficulty (`Easy → Medium → Hard`)
+> - `patterns` is Zod-validated against `TOPIC_SLUGS` at build time
 
 ---
 
@@ -70,7 +118,7 @@ order: 1                          # ordering within the pattern
 | File | Responsibility |
 |------|----------------|
 | `schema.ts` | Zod schemas, `TOPIC_SLUGS` const, TypeScript types `Topic` and `Exercise` |
-| `content.ts` | `getAllTopics()`, `getAllExercises()`, `getExerciseBySlug()` |
+| `content.ts` | `getAllTopics()`, `getAllExercises()`, `getExerciseBySlug(slug)`, `getExercisesByPattern(slug)` |
 | `graph.ts` | `buildGraph()` — derives edges from `prerequisites`, applies Dagre auto-layout |
 | `progress.ts` | `markSolved(id)`, `isCompleted(id)`, `getPatternProgress(slug)` — all localStorage |
 

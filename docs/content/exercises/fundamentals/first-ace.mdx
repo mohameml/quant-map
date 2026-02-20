@@ -1,0 +1,112 @@
+---
+id: "first-ace"
+title: "First Ace"
+difficulty: "Medium"
+patterns: ["fundamentals"]
+tags:
+    [
+        "probability",
+        "expectation",
+        "card-shuffling",
+        "indicator-variables",
+        "symmetry",
+    ]
+---
+
+## Exercise
+
+On average, how many cards must be turned over in a standard 52-card deck to observe the first Ace?
+
+## Hint
+
+Consider dividing the deck into intervals separated by the four Aces. By symmetry, how are the cards distributed among these intervals?
+
+## Hint
+
+Use indicator variables to count the expected number of non-Ace cards in each interval, then relate the position of the first Ace to the number of cards before it.
+
+## Solution
+
+Let us introduce the following variables:
+
+$$
+X_1 = \#\{\text{cards before the 1st Ace}\}, \quad X_2 = \#\{\text{cards between the 1st and 2nd Ace}\}
+$$
+
+$$
+X_3 = \#\{\text{cards between the 2nd and 3rd Ace}\}, \quad X_4 = \#\{\text{cards between the 3rd and 4th Ace}\}, \quad X_5 = \#\{\text{cards after the 4th Ace}\}
+$$
+
+These five variables count the number of cards between successive Aces (or before the first and after the last).
+
+We have:
+
+$$
+X_1 + X_2 + X_3 + X_4 + X_5 = 52 - 4 = 48
+$$
+
+since only the _non-Ace_ cards are counted in the intervals.
+
+**Symmetry of the shuffle.**
+
+The shuffle is perfectly uniform. The four Aces divide the 48 other cards into 5 "blocks" separated by the Aces.
+
+By symmetry, the intervals $(X_1, X_2, X_3, X_4, X_5)$ have the same expectation:
+
+$$
+\mathbb{E}[X_1] = \mathbb{E}[X_2] = \mathbb{E}[X_3] = \mathbb{E}[X_4] = \mathbb{E}[X_5]
+$$
+
+**Expectation of each $X_i$.**
+
+Define the indicator variables:
+
+$$
+I_{j,i} = \mathbf{1}_{\{\text{the } j\text{-th non-Ace card is in interval } i\}}
+$$
+
+Then:
+
+$$
+X_i = \sum_{j=1}^{48} I_{j,i}
+$$
+
+Now:
+
+$$
+\mathbb{E}[I_{j,i}] = P(C_j \in X_i) = \frac{1}{5}
+$$
+
+Therefore:
+
+$$
+\mathbb{E}[X_i] = \sum_{j=1}^{48} \mathbb{E}[I_{j,i}] = 48 \times \frac{1}{5} = \frac{48}{5}
+$$
+
+Thus:
+
+$$
+\boxed{\mathbb{E}[X_i] = \frac{48}{5}} \quad \forall i \in \{1, 2, 3, 4, 5\}
+$$
+
+**Position of the first Ace.**
+
+The position $N$ of the first Ace is:
+
+$$
+N = X_1 + 1
+$$
+
+(since there are $X_1$ non-Ace cards before it, then the first Ace).
+
+Thus:
+
+$$
+\mathbb{E}[N] = \mathbb{E}[X_1] + 1 = \frac{48}{5} + 1 = \frac{48 + 5}{5} = \boxed{\frac{53}{5}}
+$$
+
+Numerically:
+
+$$
+\mathbb{E}[N] \approx 10.6
+$$

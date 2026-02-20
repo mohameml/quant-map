@@ -1,0 +1,113 @@
+---
+id: "average-wait-time-two-buses"
+title: "Average Wait Time at a Stop with Two Buses"
+difficulty: "Medium"
+patterns: ["continuous-distributions"]
+tags:
+    [
+        "probability",
+        "expectation",
+        "uniform-distribution",
+        "minimum",
+        "integration",
+    ]
+---
+
+## Exercise
+
+At a bus stop, two bus lines serve the stop:
+
+- Bus 1 passes every 2 minutes,
+- Bus 2 passes every 5 minutes.
+
+A traveler arrives at a completely random time (independent of the schedules).
+
+What is the average wait time before the next bus (regardless of which line)?
+
+## Hint
+
+Model the wait times for each bus as uniform random variables. Use the formula $\mathbb{E}[\min(T_1, T_2)] = \int_0^\infty \mathbb{P}(\min(T_1, T_2) > t) \, dt$.
+
+## Hint
+
+Since $T_1$ and $T_2$ are independent, $\mathbb{P}(\min(T_1, T_2) > t) = \mathbb{P}(T_1 > t) \cdot \mathbb{P}(T_2 > t)$.
+
+## Solution
+
+The passages of the two buses form a process where:
+
+$$
+T_1 \sim \mathcal{U}[0,2], \qquad T_2 \sim \mathcal{U}[0,5]
+$$
+
+represent the respective wait times if we only considered one line.
+
+We seek:
+
+$$
+\mathbb{E}[\min(T_1, T_2)]
+$$
+
+**Recall: Expectation of a positive random variable**
+
+For $X \geq 0$ continuous:
+
+$$
+\mathbb{E}[X] = \int_0^\infty \mathbb{P}(X > t) \, dt
+$$
+
+Since $\min(T_1, T_2)$ is a positive random variable and $T_1$ and $T_2$ are independent:
+
+$$
+\mathbb{E}[\min(T_1, T_2)] = \int_0^\infty \mathbb{P}(\min(T_1, T_2) > t) \, dt = \int_0^\infty \mathbb{P}(T_1 > t) \cdot \mathbb{P}(T_2 > t) \, dt
+$$
+
+For $X \sim \mathcal{U}[a,b]$:
+
+$$
+F_X(x) = \begin{cases}
+0, & x < a \\[6pt]
+\dfrac{x-a}{b-a}, & a \leq x \leq b \\[10pt]
+1, & x > b
+\end{cases}
+$$
+
+Therefore:
+
+$$
+\mathbb{P}(T_1 > t) = \begin{cases}
+1 - \dfrac{t}{2}, & 0 \leq t \leq 2 \\
+0, & t > 2
+\end{cases}
+\qquad
+\mathbb{P}(T_2 > t) = \begin{cases}
+1 - \dfrac{t}{5}, & 0 \leq t \leq 5 \\
+0, & t > 5
+\end{cases}
+$$
+
+Since $2 < 5$, the integral reduces to $[0,2]$:
+
+$$
+\mathbb{E}[\min(T_1, T_2)] = \int_0^2 \left(1 - \frac{t}{2}\right)\left(1 - \frac{t}{5}\right) dt
+$$
+
+Expanding:
+
+$$
+\left(1 - \frac{t}{2}\right)\left(1 - \frac{t}{5}\right) = 1 - \frac{7}{10}t + \frac{t^2}{10}
+$$
+
+Therefore:
+
+$$
+\mathbb{E}[\min(T_1, T_2)] = \left[ t - \frac{7}{20}t^2 + \frac{1}{30}t^3 \right]_0^2 = 2 - \frac{7}{20} \cdot 4 + \frac{1}{30} \cdot 8 = 2 - \frac{28}{20} + \frac{8}{30}
+$$
+
+Thus:
+
+$$
+\boxed{\mathbb{E}[\min(T_1, T_2)] = \frac{52}{60} = \frac{13}{15}}
+$$
+
+approximately 52 seconds.

@@ -26,8 +26,6 @@
 
 - [ ] Add placeholder `content/topics/conditional-bayes.mdx` with correct frontmatter
 
----
-
 ## Phase 1 — Content Pipeline
 
 - [ ] `src/lib/schema.ts`
@@ -49,8 +47,6 @@
 - [ ] Verify build-time validation works:
     - Temporarily add invalid slug to an exercise → `next build` should fail with clear Zod error
     - Fix it → build should pass
-
----
 
 ## Phase 2 — Exercise Page
 

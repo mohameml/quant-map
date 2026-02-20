@@ -15,3 +15,13 @@
 - **Nice to Have:**
     - Progress dashboard
     - SEO (important but not blocking launch)
+    - the possiblity that user can report an error
+    - add images and simulation of some exercices like the exo of cube it's nice to have a cube
+      or the exercie or rat it's nice to have a simulation ....etc
+
+    - add new tabs for : fifty challengs
+        - exos from the book : fifty challenging problems in probabilty
+        - design from the Quest in leetcode
+
+- **Better to have:**
+    - the possiblity to comment in exo : comminuty

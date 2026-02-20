@@ -2,9 +2,8 @@
 id: "biased-coin"
 title: "Biased Coin"
 difficulty: "Medium"
-patterns: ["conditional-bayes"]
+patterns: ["conditional-probability"]
 tags: ["bayes", "classic", "likelihood"]
-order: 1
 ---
 
 ## Problem
@@ -20,13 +19,13 @@ Calculate the probability that the chosen coin is the biased one.
 ## Hints
 
 <Hint n={1}>
-  Define events for choosing the biased coin vs. a fair coin, and an event for
-  getting 10 heads. What are the prior probabilities of each?
+	Define events for choosing the biased coin vs. a fair coin, and an event for
+	getting 10 heads. What are the prior probabilities of each?
 </Hint>
 
 <Hint n={2}>
-  Apply Bayes' Theorem. Think carefully about the likelihood of getting 10
-  heads in a row with a fair coin versus the biased coin.
+	Apply Bayes' Theorem. Think carefully about the likelihood of getting 10
+	heads in a row with a fair coin versus the biased coin.
 </Hint>
 
 ## Solution
@@ -53,8 +52,7 @@ By Bayes' formula,
 
 $$
 P(U \mid H)
-= \frac{P(H \mid U)\,P(U)}
-       {P(H \mid U)\,P(U) + P(H \mid F)\,P(F)}.
+= \frac{P(H \mid U)\,P(U)}{P(H \mid U)\,P(U) + P(H \mid F)\,P(F)}.
 $$
 
 Now:
@@ -69,8 +67,7 @@ Substituting the values,
 
 $$
 P(U \mid H)
-= \frac{1 \times \tfrac{1}{100}}
-       {1 \times \tfrac{1}{100} + \left(\tfrac{1}{2}\right)^{10} \times \tfrac{99}{100}}
+= \frac{1 \times \tfrac{1}{100}}{1 \times \tfrac{1}{100} + \left(\tfrac{1}{2}\right)^{10} \times \tfrac{99}{100}}
 = \frac{1}{1 + 99\left(\tfrac{1}{2}\right)^{10}}.
 $$
 

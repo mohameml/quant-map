@@ -1,0 +1,125 @@
+---
+id: "even-before-odd"
+title: "Even before Odd"
+difficulty: "Hard"
+patterns: ["conditional-probability"]
+tags:
+    [
+        "probability",
+        "conditional-probability",
+        "chain-rule",
+        "dice",
+        "permutations",
+        "coupon-collector",
+    ]
+---
+
+## Exercise
+
+1. **(Product Formula)**
+
+    Let $A_1, A_2, \dots, A_n$ be events such that:
+
+    $$
+    \mathbb{P}\left(\bigcap_{k=1}^n A_k\right) > 0
+    $$
+
+    Show that:
+
+    $$
+    \mathbb{P}\left(\bigcap_{k=1}^n A_k\right) = \prod_{k=1}^n \mathbb{P}\left(A_k \,\middle|\, \bigcap_{j=1}^{k-1} A_j\right)
+    $$
+
+2. **(Even before Odd)**
+
+    A fair 6-sided die is rolled repeatedly until all six faces $\{1,2,3,4,5,6\}$ have been observed at least once.
+
+    What is the probability of observing _no odd face_ before having observed _all even faces_?
+
+## Hint
+
+For part 1, use the definition of conditional probability recursively: $\mathbb{P}(A \cap B) = \mathbb{P}(A \mid B) \mathbb{P}(B)$.
+
+## Hint
+
+For part 2, condition on the event $B$ that in exactly 6 rolls, all faces appear exactly once (a permutation). Under this event, what does "no odd faces before all even faces" mean?
+
+## Hint
+
+Under event $B$, the first three rolls must be the even faces $\{2, 4, 6\}$ in some order. Use the chain rule to compute the probability that $X_1, X_2, X_3$ are all even, given that $(X_1, \dots, X_6)$ is a uniform permutation.
+
+## Solution
+
+**1. Product Formula**
+
+We use the definition of conditional probability: for two events $A, B$ with $\mathbb{P}(B) > 0$:
+
+$$
+\mathbb{P}(A \mid B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)} \quad \Longleftrightarrow \quad \mathbb{P}(A \cap B) = \mathbb{P}(A \mid B) \mathbb{P}(B)
+$$
+
+Applying this to $A = A_n$ and $B = \bigcap_{k=1}^{n-1} A_k$:
+
+$$
+\mathbb{P}\left(\bigcap_{k=1}^{n} A_k\right) = \mathbb{P}\left(A_n \,\middle|\, \bigcap_{k=1}^{n-1} A_k\right) \mathbb{P}\left(\bigcap_{k=1}^{n-1} A_k\right)
+$$
+
+Repeating this reasoning on $\mathbb{P}\left(\bigcap_{k=1}^{n-1} A_k\right)$, then on $\mathbb{P}\left(\bigcap_{k=1}^{n-2} A_k\right)$, etc., by induction we obtain:
+
+$$
+\mathbb{P}\left(\bigcap_{k=1}^n A_k\right) = \mathbb{P}(A_1) \mathbb{P}(A_2 \mid A_1) \mathbb{P}\left(A_3 \,\middle|\, A_1 \cap A_2\right) \cdots \mathbb{P}\left(A_n \,\middle|\, \bigcap_{j=1}^{n-1} A_j\right)
+$$
+
+Note that $\bigcap_{j=1}^{0} A_j = \Omega$ (giving $\mathbb{P}(A_1 \mid \Omega) = \mathbb{P}(A_1)$), so this can be written as:
+
+$$
+\mathbb{P}\left(\bigcap_{k=1}^n A_k\right) = \prod_{k=1}^n \mathbb{P}\left(A_k \,\middle|\, \bigcap_{j=1}^{k-1} A_j\right)
+$$
+
+**2. Application — Die Rolling**
+
+Let:
+
+$$
+B = \{(X_1, \dots, X_6) \text{ is a permutation of } (1,2,3,4,5,6)\}
+$$
+
+i.e., the event "in 6 rolls, all faces are observed."
+
+Let:
+
+$$
+E = \{\text{no odd face is seen before all even faces are seen}\}
+$$
+
+Under $B$, the three even faces are exactly $\{2, 4, 6\}$. Thus:
+
+$$
+E \equiv \{X_1, X_2, X_3 \text{ are even}\}
+$$
+
+because if the first three results are even, they must be $2, 4, 6$ (without repetition), and then $X_4, X_5, X_6$ are automatically odd.
+
+We seek:
+
+$$
+\mathbb{P}(E \mid B) = \mathbb{P}(X_1 \text{ even} \cap X_2 \text{ even} \cap X_3 \text{ even} \mid B)
+$$
+
+Applying the chain rule (from part 1) conditionally on $B$:
+
+$$
+\mathbb{P}(E \mid B) = \mathbb{P}(X_1 \text{ even} \mid B) \mathbb{P}(X_2 \text{ even} \mid X_1 \text{ even}, B) \mathbb{P}(X_3 \text{ even} \mid X_1, X_2 \text{ even}, B)
+$$
+
+Under $B$, $(X_1, \dots, X_6)$ is a uniform permutation, so:
+
+$$
+\mathbb{P}(X_1 \text{ even} \mid B) = \frac{3}{6}, \quad \mathbb{P}(X_2 \text{ even} \mid X_1 \text{ even}, B) = \frac{2}{5}, \quad \mathbb{P}(X_3 \text{ even} \mid X_1, X_2 \text{ even}, B) = \frac{1}{4}
+$$
+
+Thus:
+
+$$
+\boxed{\mathbb{P}(E \mid B) = \frac{3}{6} \cdot \frac{2}{5} \cdot \frac{1}{4} = \frac{1}{20}}
+$$

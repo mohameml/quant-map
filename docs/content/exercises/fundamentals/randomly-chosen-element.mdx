@@ -1,0 +1,59 @@
+---
+id: "randomly-chosen-element"
+title: "Randomly Chosen Element"
+difficulty: "Easy"
+patterns: ["fundamentals", "discrete_distribution"]
+tags: ["probability", "expectation", "discrete-uniform", "counting"]
+---
+
+## Exercise
+
+Consider the set $\{1, 2, \dots, n\}$.
+
+We uniformly choose an element $I$ from this set.
+
+We define:
+
+$$
+X_1 = \#\{\text{elements strictly less than } I\}, \quad X_2 = \#\{\text{elements strictly greater than } I\}
+$$
+
+Calculate the expectation $\mathbb{E}[X_1]$.
+
+## Hint
+
+Express $X_1$ directly in terms of $I$. Since $I$ is uniformly distributed on $\{1, 2, \dots, n\}$, use the definition of expectation to compute $\mathbb{E}[X_1]$.
+
+## Solution
+
+The chosen element $I$ is uniform on $\{1, 2, \dots, n\}$, so:
+
+$$
+P(I = k) = \frac{1}{n}, \qquad k = 1, \dots, n
+$$
+
+By definition:
+
+$$
+X_1 = \#\{j \in \{1, \dots, n\} : j < I\} = I - 1
+$$
+
+Thus $X_1$ takes values in $\{0, 1, \dots, n-1\}$.
+
+Therefore:
+
+$$
+\mathbb{E}[X_1] = \sum_{k=0}^{n-1} k \, P(X_1 = k) = \sum_{k=1}^{n} (k-1) \, P(I = k) = \frac{1}{n} \sum_{k=1}^n (k-1)
+$$
+
+Now:
+
+$$
+\sum_{k=1}^n (k-1) = \sum_{m=0}^{n-1} m = \frac{(n-1)n}{2}
+$$
+
+Hence:
+
+$$
+\mathbb{E}[X_1] = \frac{1}{n} \cdot \frac{n(n-1)}{2} = \boxed{\frac{n-1}{2}}
+$$

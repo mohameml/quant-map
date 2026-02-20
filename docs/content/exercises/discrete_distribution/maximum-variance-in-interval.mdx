@@ -1,0 +1,78 @@
+---
+id: "maximum-variance-in-interval"
+title: "Variable with Maximum Variance in [-1,1]"
+difficulty: "Medium"
+patterns: ["discrete_distribution"]
+tags:
+    [
+        "probability",
+        "variance",
+        "optimization",
+        "rademacher",
+        "popoviciu-inequality",
+    ]
+---
+
+## Exercise
+
+Let $\Gamma$ be the set of random variables $X$ such that $X \in [-1,1]$ almost surely.
+
+Determine:
+
+$$
+X^* \in \arg\max_{X \in \Gamma} \operatorname{Var}(X)
+$$
+
+## Hint
+
+Use the formula $\operatorname{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2$. What is the maximum possible value of $\mathbb{E}[X^2]$ given the constraint?
+
+## Hint
+
+To maximize variance, you need $\mathbb{E}[X^2] = 1$ and $\mathbb{E}[X] = 0$. What does the first condition tell you about the support of $X$?
+
+## Solution
+
+For any random variable $X \in [-1,1]$ almost surely, we have:
+
+$$
+\operatorname{Var}(X) = \mathbb{E}[X^2] - \big(\mathbb{E}[X]\big)^2
+$$
+
+Since $X^2 \leq 1$, we have $\mathbb{E}[X^2] \leq 1$. Thus:
+
+$$
+\operatorname{Var}(X) \leq 1 - \big(\mathbb{E}[X]\big)^2 \leq 1
+$$
+
+To achieve equality $\operatorname{Var}(X) = 1$, we need:
+
+$$
+\mathbb{E}[X^2] = 1 \quad \text{and} \quad \mathbb{E}[X] = 0
+$$
+
+The condition $\mathbb{E}[X^2] = 1$ with $X^2 \leq 1$ forces $|X| = 1$ almost surely, so $X \in \{-1, 1\}$ almost surely.
+
+Next, the condition $\mathbb{E}[X] = 0$ implies:
+
+$$
+\mathbb{P}(X = 1) = \mathbb{P}(X = -1) = \frac{1}{2}
+$$
+
+Thus, a maximizer is the symmetric **Rademacher variable**:
+
+$$
+X^* = \begin{cases}
+1, & \text{with probability } \frac{1}{2}, \\[6pt]
+-1, & \text{with probability } \frac{1}{2}
+\end{cases}
+\qquad \text{and} \qquad \boxed{\operatorname{Var}(X^*) = 1}
+$$
+
+**Remark.** More generally, if $X \in [a,b]$ almost surely, we have Popoviciu's inequality:
+
+$$
+\operatorname{Var}(X) \leq \frac{(b-a)^2}{4}
+$$
+
+with equality when $\mathbb{P}(X = a) = \mathbb{P}(X = b) = \frac{1}{2}$.
