@@ -3,7 +3,14 @@ id: "n-heads-in-a-row"
 title: "Expected Tosses for n Heads in a Row (Unfair Coin)"
 difficulty: "Hard"
 patterns: ["markov-chains"]
-tags: ["markov-chains", "absorption-time", "induction", "generalization", "geometric-series"]
+tags:
+    [
+        "markov-chains",
+        "absorption-time",
+        "induction",
+        "generalization",
+        "geometric-series",
+    ]
 ---
 
 ## Problem
@@ -13,11 +20,15 @@ For an unfair coin with probability $p$ of landing heads (and $q = 1-p$ for tail
 ## Hints
 
 <Hint n={1}>
-Model this with a Markov chain with $n+1$ states $S_0, \dots, S_n$ based on the current streak of consecutive heads. Write the absorption time equations for each state.
+    Model this with a Markov chain with $n+1$ states $S_0, \dots, S_n$ based on
+    the current streak of consecutive heads. Write the absorption time equations
+    for each state.
 </Hint>
 
 <Hint n={2}>
-Define the successive differences $d_k = E_k - E_{k+1}$. Show that $d_0 = \frac{1}{p}$ by simplifying the equation for $E_0$.
+    Define the successive differences $d_k = E_k - E_{k + 1}$. Show that $d_0 =
+    \frac{1}
+    {p}$ by simplifying the equation for $E_0$.
 </Hint>
 
 <Hint n={3}>
@@ -94,9 +105,9 @@ $$
 
 **Step 3: Prove by induction that $d_k = \frac{1}{p^{k+1}}$.**
 
-*Base case* ($k = 0$): Already shown: $d_0 = \frac{1}{p}$.
+_Base case_ ($k = 0$): Already shown: $d_0 = \frac{1}{p}$.
 
-*Inductive step:* Assume $d_j = \frac{1}{p^{j+1}}$ for all $0 \le j \le k-1$. We show $d_k = \frac{1}{p^{k+1}}$.
+_Inductive step:_ Assume $d_j = \frac{1}{p^{j+1}}$ for all $0 \le j \le k-1$. We show $d_k = \frac{1}{p^{k+1}}$.
 
 By telescoping:
 

@@ -3,7 +3,8 @@ id: "baby-and-the-couch"
 title: "Baby and the Couch"
 difficulty: "Hard"
 patterns: ["markov-chains"]
-tags: ["markov-chains", "stationary-distribution", "geometric-series", "classic"]
+tags:
+    ["markov-chains", "stationary-distribution", "geometric-series", "classic"]
 ---
 
 ## Problem
@@ -25,11 +26,15 @@ Model the baby's distance from the couch as a Markov chain on the state space $S
 </Hint>
 
 <Hint n={2}>
-The long-run proportion of time spent at the couch is the stationary probability $\pi_0$. Write the balance equations $\pi = \pi P$ and look for a geometric solution of the form $\pi_i = C r^i$.
+    The long-run proportion of time spent at the couch is the stationary
+    probability $\pi_0$. Write the balance equations $\pi = \pi P$ and look for
+    a geometric solution of the form $\pi_i = C r^i$.
 </Hint>
 
 <Hint n={3}>
-You should find a characteristic equation $0.3r^2 - 0.5r + 0.2 = 0$ with roots $r = 1$ and $r = 2/3$. Only $r = 2/3$ gives a summable distribution. Use the normalization $\sum \pi_i = 1$ to find $\pi_0$.
+    You should find a characteristic equation $0.3r^2 - 0.5r + 0.2 = 0$ with
+    roots $r = 1$ and $r = 2/3$. Only $r = 2/3$ gives a summable distribution.
+    Use the normalization $\sum \pi_i = 1$ to find $\pi_0$.
 </Hint>
 
 ## Solution

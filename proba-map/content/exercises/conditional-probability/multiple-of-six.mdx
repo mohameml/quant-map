@@ -13,17 +13,17 @@ You roll a fair six-sided die and sum the outcomes until you reach a multiple of
 ## Hints
 
 <Hint n={1}>
-	Use first-step analysis: condition on the value of the first roll. With
-	probability $1/6$ you roll a 6 and stop immediately. Otherwise, you must
-	continue.
+    Use first-step analysis: condition on the value of the first roll. With
+    probability $1/6$ you roll a 6 and stop immediately. Otherwise, you must
+    continue.
 </Hint>
 
 <Hint n={2}>
-	After a non-six roll, the problem resets: regardless of the current sum
-	modulo 6, you still need the running sum to hit the next multiple of 6. Set
-	up an equation $x = \frac{1}
-	{6} \cdot 1 + \frac{5}
-	{6} \cdot (1 + x)$ and solve.
+    After a non-six roll, the problem resets: regardless of the current sum
+    modulo 6, you still need the running sum to hit the next multiple of 6. Set
+    up an equation $x = \frac{1}
+    {6} \cdot 1 + \frac{5}
+    {6} \cdot (1 + x)$ and solve.
 </Hint>
 
 ## Solution

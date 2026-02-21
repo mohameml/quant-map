@@ -13,16 +13,16 @@ You play a game where you roll a die up to three times. After each roll, you can
 ## Hints
 
 <Hint n={1}>
-	Solve this by backward induction (dynamic programming). Start from the last
-	roll: since there is no choice left, the expected value is $3.5$. Then at
-	each earlier roll, compare the current value to the expected value of
-	continuing.
+    Solve this by backward induction (dynamic programming). Start from the last
+    roll: since there is no choice left, the expected value is $3.5$. Then at
+    each earlier roll, compare the current value to the expected value of
+    continuing.
 </Hint>
 
 <Hint n={2}>
-	At roll 2, you should keep the result if it beats $V_3 = 3.5$, so keep if $x
-	\ge 4$. At roll 1, you should keep if the result beats $V_2$. Compute $V_2$
-	and $V_1$ using the law of total expectation.
+    At roll 2, you should keep the result if it beats $V_3 = 3.5$, so keep if $x
+    \ge 4$. At roll 1, you should keep if the result beats $V_2$. Compute $V_2$
+    and $V_1$ using the law of total expectation.
 </Hint>
 
 ## Solution

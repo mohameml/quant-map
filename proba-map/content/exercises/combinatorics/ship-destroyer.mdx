@@ -15,15 +15,20 @@ Compute the probability that, after the four bombs have fallen, every ship on th
 ## Hints
 
 <Hint n={1}>
-All ships are destroyed if and only if every row or every column has been hit. Define $E_R$ = "the four bombs land in four distinct rows" and $E_C$ = "four distinct columns." The desired event is $E_R \cup E_C$.
+    All ships are destroyed if and only if every row or every column has been
+    hit. Define $E_R$ = "the four bombs land in four distinct rows" and $E_C$ =
+    "four distinct columns." The desired event is $E_R \cup E_C$.
 </Hint>
 
 <Hint n={2}>
-Count $|E_R|$, $|E_C|$, and $|E_R \cap E_C|$ separately, then apply the inclusion-exclusion principle. The total number of outcomes is $16^4$ since each bomb can land in any of 16 cells.
+    Count $|E_R|$, $|E_C|$, and $|E_R \cap E_C|$ separately, then apply the
+    inclusion-exclusion principle. The total number of outcomes is $16^4$ since
+    each bomb can land in any of 16 cells.
 </Hint>
 
 <Hint n={3}>
-For $E_R$: $4!$ ways to assign distinct rows, $4^4$ ways for columns. For $E_R \cap E_C$: $4! \times 4!$ arrangements (a permutation matrix pattern).
+    For $E_R$: $4!$ ways to assign distinct rows, $4^4$ ways for columns. For
+    $E_R \cap E_C$: $4! \times 4!$ arrangements (a permutation matrix pattern).
 </Hint>
 
 ## Solution

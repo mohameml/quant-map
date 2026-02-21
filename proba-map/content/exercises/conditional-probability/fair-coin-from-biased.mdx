@@ -23,21 +23,20 @@ You want to generate a **fair** coin flip (probability $1/2$) using only this co
 ## Hints
 
 <Hint n={1}>
-	Think about pairs of flips. Among the four possible outcomes
-	$HH$, $HT$, $TH$, $TT$, can you find two that have the same probability
-	regardless of $p$?
+    Think about pairs of flips. Among the four possible outcomes $HH$, $HT$,
+    $TH$, $TT$, can you find two that have the same probability regardless of
+    $p$?
 </Hint>
 
 <Hint n={2}>
-	Consider rejecting symmetric outcomes ($HH$ and $TT$) and only
-	keeping asymmetric ones ($HT$ and $TH$). What are their respective
-	probabilities?
+    Consider rejecting symmetric outcomes ($HH$ and $TT$) and only keeping
+    asymmetric ones ($HT$ and $TH$). What are their respective probabilities?
 </Hint>
 
 <Hint n={3}>
-	To rigorously prove fairness, define the first accepted trial
-	$N$ and decompose $\mathbb{P}(Y=H)$ as a sum over all possible
-	values of $N$. You will obtain a geometric series.
+    To rigorously prove fairness, define the first accepted trial $N$ and
+    decompose $\mathbb{P}(Y=H)$ as a sum over all possible values of $N$. You
+    will obtain a geometric series.
 </Hint>
 
 ## Solution
@@ -53,7 +52,7 @@ Repeat the following experiment:
 
 ### Method 1 — Intuition (conditioning)
 
-Consider an *accepted* trial, that is, the event
+Consider an _accepted_ trial, that is, the event
 
 $$
 A=\{HT\ \text{or}\ TH\}.

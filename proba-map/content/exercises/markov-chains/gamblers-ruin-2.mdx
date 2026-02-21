@@ -3,7 +3,14 @@ id: "gamblers-ruin-2"
 title: "Gambler's Ruin 2"
 difficulty: "Hard"
 patterns: ["markov-chains"]
-tags: ["markov-chains", "martingale", "optional-stopping", "random-walk", "classic"]
+tags:
+    [
+        "markov-chains",
+        "martingale",
+        "optional-stopping",
+        "random-walk",
+        "classic",
+    ]
 ---
 
 ## Problem
@@ -23,11 +30,15 @@ For Q1, note that the random walk $X_k = X_0 + \sum \varepsilon_i$ with $E[\vare
 </Hint>
 
 <Hint n={2}>
-For Q2, find a function $f(x) = \lambda^x$ such that $f(X_k)$ is a martingale when $p \neq 1/2$. The condition $p\lambda + q\lambda^{-1} = 1$ leads to $\lambda = q/p$.
+    For Q2, find a function $f(x) = \lambda^x$ such that $f(X_k)$ is a
+    martingale when $p \neq 1/2$. The condition $p\lambda + q\lambda^{-1} = 1$
+    leads to $\lambda = q/p$.
 </Hint>
 
 <Hint n={3}>
-For Q3, show that $M_k = X_k^2 - k$ is a martingale by computing $E[X_{k+1}^2 \mid \mathcal{F}_k]$. Apply the Optional Stopping Theorem to this new martingale.
+    For Q3, show that $M_k = X_k^2 - k$ is a martingale by computing $E[X_
+    {k + 1}^2 \mid \mathcal{F}_k]$. Apply the Optional Stopping Theorem to this
+    new martingale.
 </Hint>
 
 ## Solution

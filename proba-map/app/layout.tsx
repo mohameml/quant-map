@@ -4,34 +4,34 @@ import { Navbar } from "@/components/navbar";
 import "./globals.css";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+    variable: "--font-geist-sans",
+    subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "ProbaCode — Master Probability for Quant Interviews",
-  description:
-    "NeetCode-style interactive roadmap for probability and statistics interview preparation.",
+    title: "ProbaCode — Master Probability for Quant Interviews",
+    description:
+        "NeetCode-style interactive roadmap for probability and statistics interview preparation.",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar />
-        {children}
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            >
+                <Navbar />
+                {children}
+            </body>
+        </html>
+    );
 }

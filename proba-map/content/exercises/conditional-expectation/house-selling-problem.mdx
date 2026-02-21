@@ -3,7 +3,13 @@ id: "house-selling-problem"
 title: "House Selling Problem"
 difficulty: "Hard"
 patterns: ["conditional-expectation"]
-tags: ["optimal-stopping", "bellman-equation", "threshold-strategy", "dynamic-programming"]
+tags:
+    [
+        "optimal-stopping",
+        "bellman-equation",
+        "threshold-strategy",
+        "dynamic-programming",
+    ]
 ---
 
 ## Problem
@@ -26,11 +32,14 @@ Consider a threshold strategy: accept if $X \geq s$, reject if $X < s$. Write th
 </Hint>
 
 <Hint n={2}>
-For $X \sim \mathcal{U}[0,1]$, compute $\mathbb{E}[X \mid X \geq s] = \frac{s+1}{2}$. Substitute into the Bellman equation and solve for $V(s)$.
+    For $X \sim \mathcal{U}[0,1]$, compute $\mathbb{E}[X \mid X \geq s] = \frac
+    {s + 1}
+    {2}$. Substitute into the Bellman equation and solve for $V(s)$.
 </Hint>
 
 <Hint n={3}>
-Differentiate $V(s)$ with respect to $s$, set $V'(s) = 0$, and solve for the optimal threshold $s^*$. Check the validity condition $s^* \geq 0$.
+    Differentiate $V(s)$ with respect to $s$, set $V'(s) = 0$, and solve for the
+    optimal threshold $s^*$. Check the validity condition $s^* \geq 0$.
 </Hint>
 
 ## Solution
