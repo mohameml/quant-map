@@ -76,8 +76,6 @@ The core differentiator of ProbaCode. A visual, interactive graph built with Rea
 - Edges show prerequisite relationships
 - Zoom, pan, and responsive layout for all screen sizes
 
-![grahp-example](./images/graph.png)
-
 ### 5.2 Pattern Pages
 
 Each pattern has a dedicated page listing all problems within that category:
@@ -85,8 +83,6 @@ Each pattern has a dedicated page listing all problems within that category:
 - Pattern description and key concepts overview
 - Problem list sorted by difficulty (Easy, Medium, Hard)
 - Completion status indicator for each problem (logged-in users)
-
-![patterb-example](./images/pattern.png)
 
 ### 5.3 Problem Pages
 
@@ -115,8 +111,6 @@ Personal dashboard for registered users:
 - Overall completion stats: total problems solved, patterns completed, current streak
 - Progress breakdown by pattern (progress bars)
 - Activity heatmap showing daily practice (GitHub-style contribution graph)
-
-![progress-profile](./images/profile.png)
 
 ### 5.6 SEO & Discoverability
 
