@@ -1,0 +1,133 @@
+---
+id: "st-petersburg-paradox"
+title: "St. Petersburg Paradox"
+difficulty: "Hard"
+patterns: ["discrete-distributions"]
+tags: ["expected-value", "divergent-series", "utility-theory", "classic"]
+---
+
+## Problem
+
+A fair coin is tossed repeatedly until Tails appears for the first time. If Tails appears on toss number $n$, you win $2^n$ euros.
+
+How much would you be willing to pay to play this game?
+
+## Hints
+
+<Hint n={1}>
+Start by computing the expected gain $\mathbb{E}[G]$. Since $N \sim \mathrm{Geom}(1/2)$, we have $\mathbb{P}(N = n) = (1/2)^n$ and the gain is $G = 2^N$. Sum the series.
+</Hint>
+
+<Hint n={2}>
+The expected gain is infinite! To resolve this paradox, consider using a utility function $U(x) = \ln(x)$ instead of raw monetary value. Compute $\mathbb{E}[\ln(G)]$ and find the certainty equivalent.
+</Hint>
+
+<Hint n={3}>
+You will need the identity $\sum_{n=1}^{\infty} n x^n = \frac{x}{(1-x)^2}$ for $|x| < 1$. Apply it with $x = 1/2$ to evaluate $\mathbb{E}[N]$, which appears in $\mathbb{E}[\ln(G)] = \ln(2) \cdot \mathbb{E}[N]$.
+</Hint>
+
+## Solution
+
+**Part 1 — Expected value criterion (average gain)**
+
+Let $(X_k)_{k \ge 1}$ be the sequence of outcomes, where $X_k \in \{\text{Heads}, \text{Tails}\}$.
+
+Define the stopping time:
+
+$$
+N = \inf\{k \ge 1:\ X_k = \text{Tails}\}.
+$$
+
+The gain is $G = 2^N$.
+
+Since the coin is fair, $N$ follows a geometric distribution with parameter $1/2$:
+
+$$
+\mathbb{P}(N = n) = \Big(\frac{1}{2}\Big)^n, \qquad n \ge 1.
+$$
+
+We compute the expected gain:
+
+$$
+\mathbb{E}[G]
+= \sum_{n=1}^{\infty} 2^n \cdot \Big(\frac{1}{2}\Big)^n
+= \sum_{n=1}^{\infty} 1
+= +\infty.
+$$
+
+$$
+\boxed{\mathbb{E}[G] = +\infty.}
+$$
+
+With the criterion "fair price = expected value," one would pay an infinite price, which is unrealistic in practice.
+
+**Part 2 — Utility criterion (risk aversion): $U(x) = \ln(x)$**
+
+The idea is that $\mathbb{E}[G]$ is not a good criterion for a risk-averse player. We instead look at the expected utility:
+
+$$
+\mathbb{E}[U(G)] = \mathbb{E}[\ln(G)].
+$$
+
+Since $\ln(G) = \ln(2^N) = N\ln(2)$:
+
+$$
+\mathbb{E}[\ln(G)]
+= \sum_{n=1}^{\infty} \Big(\frac{1}{2}\Big)^n n\ln(2)
+= \ln(2) \sum_{n=1}^{\infty} \frac{n}{2^n}.
+$$
+
+We compute the series. For $|x| < 1$:
+
+$$
+\sum_{n=0}^{\infty} x^n = \frac{1}{1-x}.
+$$
+
+Differentiating:
+
+$$
+\sum_{n=1}^{\infty} n x^{n-1} = \frac{1}{(1-x)^2},
+$$
+
+then multiplying by $x$:
+
+$$
+\sum_{n=1}^{\infty} n x^n = \frac{x}{(1-x)^2}.
+$$
+
+Taking $x = \frac{1}{2}$:
+
+$$
+\sum_{n=1}^{\infty} \frac{n}{2^n}
+= \frac{\frac{1}{2}}{(\frac{1}{2})^2}
+= \frac{\frac{1}{2}}{\frac{1}{4}} = 2.
+$$
+
+Therefore:
+
+$$
+\mathbb{E}[\ln(G)] = \ln(2) \cdot 2 = 2\ln(2).
+$$
+
+**Fair price under log utility:**
+
+We seek $X$ such that the certain utility $\ln(X)$ equals the expected utility:
+
+$$
+\ln(X) = \mathbb{E}[\ln(G)] = 2\ln(2).
+$$
+
+Thus:
+
+$$
+X = e^{2\ln(2)} = e^{\ln(4)} = 4.
+$$
+
+$$
+\boxed{X = 4 \text{ euros.}}
+$$
+
+**Conclusion:**
+
+- The expected value criterion gives an infinite average gain, hence an infinite price (paradox).
+- With a logarithmic utility (risk aversion), a reasonable price is $\boxed{4 \text{ euros.}}$

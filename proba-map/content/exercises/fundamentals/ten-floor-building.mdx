@@ -1,0 +1,62 @@
+---
+id: "ten-floor-building"
+title: "Ten Floor Building"
+difficulty: "Easy"
+patterns: ["fundamentals"]
+tags: ["indicator-variables", "linearity-of-expectation", "complement"]
+---
+
+## Problem
+
+A building has $10$ floors above the basement (floors $1, 2, \dots, 10$). In the basement, $12$ people enter an elevator. Each person independently and uniformly at random chooses a floor from $\{1, \dots, 10\}$ to exit.
+
+How many floors will the elevator stop at on average (i.e., at how many different floors will at least one person exit)?
+
+## Hints
+
+<Hint n={1}>
+Define an indicator variable $I_i$ for each floor $i$ that equals 1 if the elevator stops there. Use linearity of expectation and the complement to compute $\mathbb{E}[I_i]$.
+</Hint>
+
+## Solution
+
+For each floor $i \in \{1, \dots, 10\}$, define the indicator variable
+
+$$
+I_i = \mathbf{1}_{\{\text{the elevator stops at floor } i\}}.
+$$
+
+Then the total number of stops is
+
+$$
+S = \sum_{i=1}^{10} I_i,
+\qquad\text{so}\qquad
+\mathbb{E}[S] = \sum_{i=1}^{10} \mathbb{E}[I_i]
+$$
+
+(by linearity of expectation).
+
+Now $\mathbb{E}[I_i] = \mathbb{P}(I_i = 1)$ is the probability that at least one of the 12 people chooses floor $i$. By complement:
+
+$$
+\mathbb{P}(I_i = 1) = 1 - \mathbb{P}(\text{no one chooses } i)
+= 1 - \left(\frac{9}{10}\right)^{12},
+$$
+
+since each person avoids floor $i$ with probability $9/10$, and the choices are independent.
+
+Thus, for every $i$,
+
+$$
+\mathbb{E}[I_i] = 1 - \left(\frac{9}{10}\right)^{12}.
+$$
+
+Finally,
+
+$$
+\boxed{
+\mathbb{E}[S]
+=
+10\left(1 - \left(\frac{9}{10}\right)^{12}\right).
+}
+$$

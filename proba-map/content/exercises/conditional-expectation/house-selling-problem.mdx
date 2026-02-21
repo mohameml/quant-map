@@ -1,0 +1,181 @@
+---
+id: "house-selling-problem"
+title: "House Selling Problem"
+difficulty: "Hard"
+patterns: ["conditional-expectation"]
+tags: ["optimal-stopping", "bellman-equation", "threshold-strategy", "dynamic-programming"]
+---
+
+## Problem
+
+You want to sell your house. Each day, a potential buyer arrives and makes an offer. The offers $(X_n)_{n \geq 1}$ are i.i.d. and uniform on $[0, 1]$ (in millions of euros).
+
+Each day, you must immediately decide:
+
+- **Accept** the offer — the house is sold, the game stops.
+- **Reject** — the buyer leaves and never comes back.
+
+There is a waiting cost: each additional day costs you $c$ (in millions of euros).
+
+**Q1.** What is the optimal strategy? What is the maximum expected gain $V^*$ and the expected waiting time?
+
+## Hints
+
+<Hint n={1}>
+Consider a threshold strategy: accept if $X \geq s$, reject if $X < s$. Write the Bellman equation relating the value $V$ to the threshold $s$.
+</Hint>
+
+<Hint n={2}>
+For $X \sim \mathcal{U}[0,1]$, compute $\mathbb{E}[X \mid X \geq s] = \frac{s+1}{2}$. Substitute into the Bellman equation and solve for $V(s)$.
+</Hint>
+
+<Hint n={3}>
+Differentiate $V(s)$ with respect to $s$, set $V'(s) = 0$, and solve for the optimal threshold $s^*$. Check the validity condition $s^* \geq 0$.
+</Hint>
+
+## Solution
+
+**1) Threshold strategy and Bellman equation**
+
+We assume a threshold strategy with parameter $s \in [0, 1]$:
+
+$$
+\text{Accept if } X \geq s, \qquad \text{Reject if } X < s.
+$$
+
+Let $V$ be the expected value of the game (maximum expected net gain) at the start of a day.
+
+Each day:
+
+- With probability $\mathbb{P}(X \geq s) = 1 - s$, we accept and receive on average $\mathbb{E}[X \mid X \geq s]$.
+- With probability $\mathbb{P}(X < s) = s$, we reject, pay the cost $c$, and face the same problem (value $V$).
+
+The Bellman equation is:
+
+$$
+V = (1-s)\,\mathbb{E}[X \mid X \geq s] + s\,(V - c).
+$$
+
+**2) Computing $\mathbb{E}[X \mid X \geq s]$ (uniform distribution)**
+
+If $X \sim \mathcal{U}[0,1]$, then conditionally on $\{X \geq s\}$, we have $X \sim \mathcal{U}[s,1]$, so:
+
+$$
+\mathbb{E}[X \mid X \geq s] = \frac{s+1}{2}.
+$$
+
+Substituting into the Bellman equation:
+
+$$
+V = (1-s)\frac{1+s}{2} + s(V-c).
+$$
+
+Thus:
+
+$$
+V = \frac{1-s^2}{2} + sV - sc
+\quad\Longrightarrow\quad
+V(1-s) = \frac{1-s^2}{2} - sc.
+$$
+
+Since $1-s > 0$ (for $s < 1$):
+
+$$
+V(s) = \frac{1+s}{2} - \frac{sc}{1-s}.
+$$
+
+**3) Optimization in $s$**
+
+Differentiating:
+
+$$
+V'(s) = \frac{1}{2} - \frac{c}{(1-s)^2}.
+$$
+
+Setting $V'(s) = 0$:
+
+$$
+\frac{1}{2} = \frac{c}{(1-s)^2}
+\quad\Longleftrightarrow\quad
+(1-s)^2 = 2c.
+$$
+
+Thus (solution in $[0,1]$):
+
+$$
+\boxed{s^* = 1 - \sqrt{2c}}.
+$$
+
+**Validity condition:** We need $s^* \geq 0$, so $c \leq \frac{1}{2}$. If $c > \frac{1}{2}$, the waiting cost is too high and it is optimal to accept immediately (threshold $0$).
+
+**4) Optimal value $V^*$**
+
+For $c \leq \frac{1}{2}$:
+
+$$
+V^* = V(s^*) = \frac{1+s^*}{2} - \frac{s^*c}{1-s^*}.
+$$
+
+With $1 - s^* = \sqrt{2c}$ and $s^* = 1 - \sqrt{2c}$:
+
+$$
+\boxed{V^* = 1 - \sqrt{2c} + c}.
+$$
+
+We also note the classical relation:
+
+$$
+\boxed{s^* = V^* - c}.
+$$
+
+For $c > \frac{1}{2}$ (threshold $s^* = 0$), we accept the first offer:
+
+$$
+V^* = \mathbb{E}[X] = \frac{1}{2}.
+$$
+
+**5) Expected waiting time**
+
+Let $\tau$ be the day of sale (first day where $X_\tau \geq s^*$). Then $\tau$ follows a geometric distribution with parameter
+
+$$
+\mathbb{P}(X \geq s^*) = 1 - s^*.
+$$
+
+Thus:
+
+$$
+\mathbb{E}[\tau] = \frac{1}{1-s^*}.
+$$
+
+For $c \leq \frac{1}{2}$, $1 - s^* = \sqrt{2c}$, so:
+
+$$
+\boxed{\mathbb{E}[\tau] = \frac{1}{\sqrt{2c}}.}
+$$
+
+For $c > \frac{1}{2}$, $s^* = 0$ so $\mathbb{E}[\tau] = 1$ (immediate sale on average).
+
+**Summary**
+
+$$
+\boxed{
+s^* =
+\begin{cases}
+1 - \sqrt{2c} & \text{if } c \leq \frac{1}{2},\\
+0 & \text{if } c > \frac{1}{2},
+\end{cases}
+\qquad
+V^* =
+\begin{cases}
+1 - \sqrt{2c} + c & \text{if } c \leq \frac{1}{2},\\
+\frac{1}{2} & \text{if } c > \frac{1}{2},
+\end{cases}
+\qquad
+\mathbb{E}[\tau] =
+\begin{cases}
+\frac{1}{\sqrt{2c}} & \text{if } c \leq \frac{1}{2},\\
+1 & \text{if } c > \frac{1}{2}.
+\end{cases}
+}
+$$

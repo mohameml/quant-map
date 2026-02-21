@@ -1,0 +1,61 @@
+---
+id: "variance-on-circle"
+title: "Variance of a Random Point on the Unit Circle"
+difficulty: "Easy"
+patterns: ["joint-distributions"]
+tags: ["uniform-distribution", "variance", "trigonometry"]
+---
+
+## Problem
+
+A point is chosen uniformly at random on the unit circle. Let $X$ be its x-coordinate (abscissa). Compute $\text{Var}(X)$.
+
+## Hints
+
+<Hint n={1}>
+Parameterize the random point by an angle $\Theta \sim \mathcal{U}([0, 2\pi])$, so that $X = \cos(\Theta)$. Then compute $\mathbb{E}[X]$ and $\mathbb{E}[X^2]$ using the identity $\cos^2(\theta) = \frac{1 + \cos(2\theta)}{2}$.
+</Hint>
+
+## Solution
+
+**Parameterization:**
+
+A point chosen uniformly on the unit circle can be parameterized by an angle $\Theta \sim \mathcal{U}([0, 2\pi])$. The coordinates of the point are:
+
+$$
+(X, Y) = (\cos(\Theta), \sin(\Theta))
+$$
+
+**Computing $\mathbb{E}[X]$:**
+
+$$
+\mathbb{E}[X] = \mathbb{E}[\cos(\Theta)]
+= \int_0^{2\pi} \cos(\theta) \cdot \frac{1}{2\pi} \, d\theta
+= \frac{1}{2\pi} \left[ \sin(\theta) \right]_0^{2\pi}
+= \frac{1}{2\pi} \left( \sin(2\pi) - \sin(0) \right)
+= 0
+$$
+
+**Computing $\mathbb{E}[X^2]$:**
+
+$$
+\mathbb{E}[X^2] = \mathbb{E}[\cos^2(\Theta)]
+= \int_0^{2\pi} \cos^2(\theta) \cdot \frac{1}{2\pi} \, d\theta
+$$
+
+Using the trigonometric identity $\cos^2(\theta) = \frac{1 + \cos(2\theta)}{2}$:
+
+$$
+\mathbb{E}[X^2] = \frac{1}{4\pi} \int_0^{2\pi} \left( 1 + \cos(2\theta) \right) \, d\theta
+= \frac{1}{4\pi} \left[ \theta + \frac{\sin(2\theta)}{2} \right]_0^{2\pi}
+= \frac{1}{4\pi} \cdot 2\pi
+= \frac{1}{2}
+$$
+
+**Computing the variance:**
+
+$$
+\text{Var}(X) = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = \frac{1}{2} - 0^2 = \boxed{\frac{1}{2}}
+$$
+
+**Remark:** By symmetry of the circle, we also have $\text{Var}(Y) = \frac{1}{2}$ for the y-coordinate.

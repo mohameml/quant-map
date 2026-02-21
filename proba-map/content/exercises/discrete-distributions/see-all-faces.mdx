@@ -1,0 +1,66 @@
+---
+id: "see-all-faces"
+title: "See All Faces of a Die"
+difficulty: "Easy"
+patterns: ["discrete-distributions"]
+tags: ["coupon-collector", "geometric-distribution", "harmonic-numbers", "dice"]
+---
+
+## Problem
+
+A fair six-sided die is rolled over and over until every face has appeared at least once.
+
+On average, how many rolls are needed to see all 6 faces?
+
+## Hints
+
+<Hint n={1}>
+This is a direct application of the Coupon Collector Problem with $N = 6$. Break the process into 6 phases, where phase $i$ is the time to see the $i$-th new face given $i-1$ already seen.
+</Hint>
+
+## Solution
+
+This is a direct application of the **Coupon Collector Problem** with $N = 6$.
+
+**Decomposition into phases:**
+
+Let $T_i$ be the number of rolls needed to get the $i$-th new face, given you have already seen $i-1$ distinct faces.
+
+At each roll, the probability of seeing a new face is:
+
+$$
+p_i = \frac{6 - (i-1)}{6} = \frac{7 - i}{6}
+$$
+
+Each roll being independent, $T_i$ counts the number of trials until the first success:
+
+$$
+T_i \sim \mathrm{Geom}(p_i) \qquad \text{with} \quad \mathbb{E}[T_i] = \frac{1}{p_i} = \frac{6}{7-i}
+$$
+
+**Detail of each phase:**
+
+| Phase $i$ | Faces seen | $p_i$ | $\mathbb{E}[T_i]$ |
+|-----------|-----------|--------|-------------------|
+| 1 | 0 | $1$ | $1$ |
+| 2 | 1 | $\frac{5}{6}$ | $\frac{6}{5}$ |
+| 3 | 2 | $\frac{4}{6}$ | $\frac{6}{4}$ |
+| 4 | 3 | $\frac{3}{6}$ | $\frac{6}{3}$ |
+| 5 | 4 | $\frac{2}{6}$ | $\frac{6}{2}$ |
+| 6 | 5 | $\frac{1}{6}$ | $\frac{6}{1}$ |
+
+**Total number of rolls:**
+
+The total is $T = T_1 + T_2 + \cdots + T_6$. Since the $T_i$ are independent, by linearity of expectation:
+
+$$
+\mathbb{E}[T] = \sum_{i=1}^{6} \mathbb{E}[T_i] = \sum_{i=1}^{6} \frac{6}{7-i} = 6\sum_{k=1}^{6} \frac{1}{k} = 6\left(1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \frac{1}{5} + \frac{1}{6}\right)
+$$
+
+$$
+\mathbb{E}[T] = 6 \times \frac{49}{20} = \frac{294}{20} = \frac{147}{10}
+$$
+
+$$
+\boxed{\mathbb{E}[T] = 14.7 \text{ rolls}}
+$$

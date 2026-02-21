@@ -1,0 +1,133 @@
+---
+id: "n-heads-in-a-row"
+title: "Expected Tosses for n Heads in a Row (Unfair Coin)"
+difficulty: "Hard"
+patterns: ["markov-chains"]
+tags: ["markov-chains", "absorption-time", "induction", "generalization", "geometric-series"]
+---
+
+## Problem
+
+For an unfair coin with probability $p$ of landing heads (and $q = 1-p$ for tails), what is the expected number of tosses to get $n$ consecutive heads in a row?
+
+## Hints
+
+<Hint n={1}>
+Model this with a Markov chain with $n+1$ states $S_0, \dots, S_n$ based on the current streak of consecutive heads. Write the absorption time equations for each state.
+</Hint>
+
+<Hint n={2}>
+Define the successive differences $d_k = E_k - E_{k+1}$. Show that $d_0 = \frac{1}{p}$ by simplifying the equation for $E_0$.
+</Hint>
+
+<Hint n={3}>
+Prove by induction that $d_k = \frac{1}{p^{k+1}}$ for all $0 \le k \le n-1$. Then telescope $E_0 = E_0 - E_n = \sum_{k=0}^{n-1} d_k$.
+</Hint>
+
+## Solution
+
+We model this with a Markov chain with $n+1$ states based on the current streak of consecutive heads:
+
+- $S_0$: 0 consecutive heads (start or after a tail)
+- $S_k$: $k$ consecutive heads, for $k = 1, \dots, n-1$
+- $S_n$: $n$ consecutive heads (absorbing state — goal reached)
+
+**System of equations:**
+
+Let $E_k$ be the expected number of tosses to reach $S_n$ from state $S_k$:
+
+$$
+E_0 = 1 + p\,E_1 + q\,E_0
+$$
+
+$$
+E_k = 1 + p\,E_{k+1} + q\,E_0 \qquad \text{for } k = 1, \dots, n-2
+$$
+
+$$
+E_{n-1} = 1 + q\,E_0
+$$
+
+$$
+E_n = 0
+$$
+
+We want to show that:
+
+$$
+E_0 = \frac{1}{p} + \frac{1}{p^2} + \cdots + \frac{1}{p^n} = \sum_{k=1}^{n} \frac{1}{p^k}
+$$
+
+Define the successive differences:
+
+$$
+d_k = E_k - E_{k+1}, \quad k = 0, 1, \ldots, n-1.
+$$
+
+**Step 1: Simplify the equation for $E_0$.**
+
+From the first equation, since $p + q = 1$, we have $E_0 - q\,E_0 = p\,E_0$, so:
+
+$$
+p\,E_0 = 1 + p\,E_1 \implies E_0 - E_1 = \frac{1}{p}
+$$
+
+Therefore $d_0 = \frac{1}{p}$.
+
+**Step 2: Derive a recurrence for $d_k$.**
+
+From the general equation, for $1 \le k \le n-2$:
+
+$$
+E_k = 1 + p\,E_{k+1} + (1-p)\,E_0
+$$
+
+Rearranging:
+
+$$
+p(E_k - E_{k+1}) = 1 + q(E_0 - E_k)
+$$
+
+$$
+p\,d_k = 1 + q\,(E_0 - E_k)
+$$
+
+**Step 3: Prove by induction that $d_k = \frac{1}{p^{k+1}}$.**
+
+*Base case* ($k = 0$): Already shown: $d_0 = \frac{1}{p}$.
+
+*Inductive step:* Assume $d_j = \frac{1}{p^{j+1}}$ for all $0 \le j \le k-1$. We show $d_k = \frac{1}{p^{k+1}}$.
+
+By telescoping:
+
+$$
+E_0 - E_k = \sum_{j=0}^{k-1} d_j = \sum_{j=0}^{k-1} \frac{1}{p^{j+1}} = \frac{1}{p} + \frac{1}{p^2} + \cdots + \frac{1}{p^k}
+$$
+
+This is a geometric series with ratio $1/p$:
+
+$$
+E_0 - E_k = \frac{1}{p} \cdot \frac{1 - (1/p)^k}{1 - 1/p} = \frac{1/p^k - 1}{q}
+$$
+
+Substituting into the recurrence:
+
+$$
+p\,d_k = 1 + q \cdot \frac{1/p^k - 1}{q} = 1 + \frac{1}{p^k} - 1 = \frac{1}{p^k}
+$$
+
+Therefore $d_k = \frac{1}{p^{k+1}}$. This completes the induction.
+
+**Step 4: Telescope to obtain $E_0$.**
+
+Since $E_n = 0$:
+
+$$
+E_0 = E_0 - E_n = \sum_{k=0}^{n-1} (E_k - E_{k+1}) = \sum_{k=0}^{n-1} d_k = \sum_{k=0}^{n-1} \frac{1}{p^{k+1}} = \sum_{k=1}^{n} \frac{1}{p^k}
+$$
+
+Therefore:
+
+$$
+\boxed{E_0 = \frac{1}{p} + \frac{1}{p^2} + \cdots + \frac{1}{p^n}}
+$$

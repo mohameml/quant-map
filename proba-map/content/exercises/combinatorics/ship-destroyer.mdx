@@ -1,0 +1,79 @@
+---
+id: "ship-destroyer"
+title: "Ship Destroyer"
+difficulty: "Hard"
+patterns: ["combinatorics"]
+tags: ["inclusion-exclusion", "counting", "grid", "combinatorics"]
+---
+
+## Problem
+
+Sixteen ships occupy the cells of a $4 \times 4$ grid. Four bombs are dropped independently and uniformly at random, each landing in one of the 16 cells (with repetition allowed). When a bomb lands in a cell, it destroys all ships located in the same row and the same column as that cell.
+
+Compute the probability that, after the four bombs have fallen, every ship on the grid has been destroyed.
+
+## Hints
+
+<Hint n={1}>
+All ships are destroyed if and only if every row or every column has been hit. Define $E_R$ = "the four bombs land in four distinct rows" and $E_C$ = "four distinct columns." The desired event is $E_R \cup E_C$.
+</Hint>
+
+<Hint n={2}>
+Count $|E_R|$, $|E_C|$, and $|E_R \cap E_C|$ separately, then apply the inclusion-exclusion principle. The total number of outcomes is $16^4$ since each bomb can land in any of 16 cells.
+</Hint>
+
+<Hint n={3}>
+For $E_R$: $4!$ ways to assign distinct rows, $4^4$ ways for columns. For $E_R \cap E_C$: $4! \times 4!$ arrangements (a permutation matrix pattern).
+</Hint>
+
+## Solution
+
+Each bomb can land in any of the 16 cells, independently. Since the bombs are ordered, the total number of possible outcomes is
+
+$$
+|\Omega| = 16^4.
+$$
+
+**Characterization of the event**
+
+A ship in row $i$ is destroyed if at least one bomb lands in row $i$. Similarly for columns. Thus, all ships are destroyed if and only if:
+
+- $E_R$: the four bombs land in four distinct rows, or
+- $E_C$: the four bombs land in four distinct columns.
+
+The desired event is $E_R \cup E_C$.
+
+**Counting $|E_R|$**
+
+The four bombs must occupy four different rows (columns may repeat). There are $4!$ ways to assign the four distinct rows to the four bombs, and for each bomb, 4 possible columns.
+
+$$
+|E_R| = 4! \times 4^4.
+$$
+
+By symmetry, $|E_C| = 4! \times 4^4$.
+
+**Counting $|E_R \cap E_C|$**
+
+The four bombs land in four distinct rows and four distinct columns: $4!$ ways for rows, $4!$ ways for columns.
+
+$$
+|E_R \cap E_C| = 4! \times 4!.
+$$
+
+**Final probability**
+
+By the inclusion-exclusion principle,
+
+$$
+|E_R \cup E_C| = |E_R| + |E_C| - |E_R \cap E_C| = 2 \cdot 4! \cdot 4^4 - (4!)^2.
+$$
+
+$$
+\boxed{
+\mathbb{P}(\text{all ships destroyed})
+= \frac{2 \cdot 4! \cdot 4^4 - (4!)^2}{16^4}
+= \frac{11{,}712}{65{,}536}
+\approx 0.1787
+}
+$$

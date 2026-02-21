@@ -1,0 +1,99 @@
+---
+id: "multiple-of-six"
+title: "Multiple of Six"
+difficulty: "Medium"
+patterns: ["conditional-probability"]
+tags: ["first-step-analysis", "total-expectation", "geometric"]
+---
+
+## Problem
+
+You roll a fair six-sided die and sum the outcomes until you reach a multiple of 6. What is the expected number of times you roll the die?
+
+## Hints
+
+<Hint n={1}>
+	Use first-step analysis: condition on the value of the first roll. With
+	probability $1/6$ you roll a 6 and stop immediately. Otherwise, you must
+	continue.
+</Hint>
+
+<Hint n={2}>
+	After a non-six roll, the problem resets: regardless of the current sum
+	modulo 6, you still need the running sum to hit the next multiple of 6. Set
+	up an equation $x = \frac{1}
+	{6} \cdot 1 + \frac{5}
+	{6} \cdot (1 + x)$ and solve.
+</Hint>
+
+## Solution
+
+**Idea: First Step Analysis**
+
+The key idea is to analyze the process according to the first roll. This method is known as first step analysis and relies on the law of total expectation.
+
+**Reminder: Law of Total Expectation**
+
+Let $T$ be a random variable and $A$ an event with $\mathbb{P}(A) > 0$ and $\mathbb{P}(A^c) > 0$. Then:
+
+$$
+\mathbb{E}[T]
+=
+\mathbb{E}(T \mid X_1 \in A)\,\mathbb{P}(X_1 \in A)
++
+\mathbb{E}(T \mid X_1 \notin A)\,\mathbb{P}(X_1 \notin A)
+$$
+
+**Application to the problem**
+
+Let
+
+$$
+x = \mathbb{E}[T]
+$$
+
+denote the expected number of rolls needed to reach a multiple of $6$, starting from a sum equal to $0$.
+
+We condition on the value of the first roll $X_1$.
+
+**Case 1: $X_1 = 6$.**
+This happens with probability $\mathbb{P}(X_1 = 6) = \frac{1}{6}$. The sum immediately becomes $6$, which is a multiple of $6$, so the process stops after exactly one roll:
+
+$$
+\mathbb{E}(T \mid X_1 = 6) = 1.
+$$
+
+**Case 2: $X_1 \in \{1, 2, 3, 4, 5\}$.**
+This happens with probability $\frac{5}{6}$. After the first roll, the sum is not a multiple of $6$. One roll has been used, and from that point onward the problem is identical to the original one. Hence:
+
+$$
+\mathbb{E}(T \mid X_1 \in \{1, \dots, 5\}) = 1 + x.
+$$
+
+**Equation for $x$**
+
+Applying the law of total expectation:
+
+$$
+x
+=
+\frac{1}{6} \cdot 1
++
+\frac{5}{6} \cdot (1 + x).
+$$
+
+Solving:
+
+$$
+x = \frac{1}{6} + \frac{5}{6} + \frac{5}{6}x
+\quad\Longrightarrow\quad
+x - \frac{5}{6}x = 1
+\quad\Longrightarrow\quad
+\frac{1}{6}x = 1.
+$$
+
+Thus:
+
+$$
+\boxed{\mathbb{E}[T] = 6}.
+$$

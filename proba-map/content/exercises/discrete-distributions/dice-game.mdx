@@ -1,0 +1,72 @@
+---
+id: "dice-game"
+title: "Dice Game"
+difficulty: "Medium"
+patterns: ["discrete-distributions"]
+tags: ["geometric-series", "expected-value", "dice", "two-players"]
+---
+
+## Problem
+
+Two players take turns rolling two six-sided dice. Player A goes first, followed by Player B. If Player A rolls a sum of 6, they win. If Player B rolls a sum of 7, they win. If neither rolls their desired value, the game continues until someone wins.
+
+**Question:** What is the probability that Player A wins?
+
+## Hints
+
+<Hint n={1}>
+Compute $p_A = \mathbb{P}(\text{sum} = 6)$ and $p_B = \mathbb{P}(\text{sum} = 7)$ for two dice. There are 36 equally likely outcomes.
+</Hint>
+
+<Hint n={2}>
+Each round, there are three cases: A wins (probability $p_A$), A misses and B wins (probability $(1-p_A) p_B$), or neither wins (probability $(1-p_A)(1-p_B)$). Sum the geometric series for A winning at round $n$.
+</Hint>
+
+## Solution
+
+At each round, there are three mutually exclusive cases:
+
+- **Case 1:** Player $A$ wins with probability $p_A = \frac{5}{36}$.
+- **Case 2:** Player $B$ wins (if $A$ does not win) with probability $(1-p_A)\,p_B$ where $p_B = \frac{6}{36}$.
+- **Case 3:** Neither $A$ nor $B$ wins, with probability $(1-p_A)(1-p_B)$.
+
+The total probability is
+
+$$
+p_A + (1-p_A)p_B + (1-p_A)(1-p_B) = 1.
+$$
+
+Hence, the experiment restarts independently at each new round with the same probabilities.
+
+The probability that $A$ wins at round $n$:
+
+- In the first $n-1$ rounds, there is no winner, which has probability $\bigl((1-p_A)(1-p_B)\bigr)^{n-1}$.
+- At round $n$, $A$ wins with probability $p_A$.
+
+Therefore,
+
+$$
+\mathbb{P}(A\text{ wins at round }n) = \bigl((1-p_A)(1-p_B)\bigr)^{n-1} p_A.
+$$
+
+Since the events are disjoint for different $n$:
+
+$$
+\mathbb{P}(A\text{ wins}) = \sum_{n=1}^{\infty} \bigl((1-p_A)(1-p_B)\bigr)^{n-1} p_A = \frac{p_A}{1-(1-p_A)(1-p_B)}.
+$$
+
+With $p_A = \frac{5}{36}$ and $p_B = \frac{6}{36}$,
+
+$$
+(1-p_A)(1-p_B) = \frac{31}{36} \cdot \frac{30}{36} = \frac{155}{216},
+$$
+
+so
+
+$$
+\mathbb{P}(A\text{ wins}) = \frac{\frac{5}{36}}{1 - \frac{155}{216}} = \frac{\frac{5}{36}}{\frac{61}{216}} = \frac{30}{61} \approx 0.492.
+$$
+
+$$
+\boxed{\mathbb{P}(A\text{ wins}) = \frac{30}{61} \approx 0.492}
+$$

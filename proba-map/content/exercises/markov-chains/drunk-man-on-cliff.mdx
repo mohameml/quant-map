@@ -1,0 +1,159 @@
+---
+id: "drunk-man-on-cliff"
+title: "Drunk Man on a Cliff"
+difficulty: "Hard"
+patterns: ["markov-chains"]
+tags: ["markov-chains", "random-walk", "recurrence", "stopping-time", "classic"]
+---
+
+## Problem
+
+A drunk man stands 1 step away from the edge of a cliff. At each time step, he takes a step:
+
+- towards the cliff (one step forward) with probability $1/2$;
+- away from the cliff (one step backward) with probability $1/2$.
+
+His distance from the edge is modeled by a process $(X_n)_{n\ge 0}$ taking values in $\{0, 1, 2, \dots\}$, with $X_0 = 1$ and $0$ representing falling off.
+
+**Question 1:** What is the probability that he falls off the cliff?
+
+**Question 2:** On average, how many steps does he take before falling (given that he falls)?
+
+## Hints
+
+<Hint n={1}>
+Let $p = \mathbb{P}(\tau < \infty \mid X_0 = 1)$ where $\tau$ is the first time the man reaches $0$. Use the first-step analysis: with probability $1/2$ he falls immediately, with probability $1/2$ he goes to position 2.
+</Hint>
+
+<Hint n={2}>
+To fall from position 2, the man must first reach 1 (probability $p$ by translation invariance), then fall from 1 (probability $p$ again). This gives $\mathbb{P}(\tau < \infty \mid X_0 = 2) = p^2$. Solve the resulting quadratic equation.
+</Hint>
+
+<Hint n={3}>
+For the expected time, let $m = E[\tau \mid X_0 = 1]$ and use the same decomposition. You should find $m = 1 + m$, which is a contradiction — meaning the expectation is infinite.
+</Hint>
+
+## Solution
+
+**Setup**
+
+Let
+
+$$
+X_n = 1 + \sum_{k=1}^{n}\varepsilon_k,
+\qquad \text{where } \varepsilon_k \in \{-1, +1\},\ \mathbb{P}(\varepsilon_k = 1) = \mathbb{P}(\varepsilon_k = -1) = \frac{1}{2}.
+$$
+
+The fall time is
+
+$$
+\tau = \inf\{n \ge 1:\ X_n = 0\}.
+$$
+
+**Question 1: Computing $\mathbb{P}(\tau < \infty)$**
+
+Let
+
+$$
+p = \mathbb{P}(\tau < \infty \mid X_0 = 1).
+$$
+
+At the first step:
+
+- with probability $1/2$, he goes to $0$ and falls immediately;
+- with probability $1/2$, he goes to $2$ and must fall from position $2$.
+
+So:
+
+$$
+p = \frac{1}{2} + \frac{1}{2}\,\mathbb{P}(\tau < \infty \mid X_0 = 2).
+$$
+
+**Link between probabilities from 1 and from 2:**
+
+To fall from position $2$, one must first reach $1$, then reach $0$ from $1$. By translation invariance, the probability of reaching $1$ from $2$ equals the probability of reaching $0$ from $1$, which is $p$. By the strong Markov property, once at $1$, the probability of falling is again $p$, independently of the past. Thus:
+
+$$
+\mathbb{P}(\tau < \infty \mid X_0 = 2) = p \cdot p = p^2.
+$$
+
+We obtain the equation:
+
+$$
+p = \frac{1}{2} + \frac{1}{2} p^2.
+$$
+
+Hence:
+
+$$
+2p = 1 + p^2
+\quad\Longleftrightarrow\quad
+p^2 - 2p + 1 = 0
+\quad\Longleftrightarrow\quad
+(p-1)^2 = 0.
+$$
+
+Therefore:
+
+$$
+\boxed{p = 1.}
+$$
+
+The man falls with certainty.
+
+**Question 2: Expected time before falling**
+
+Since $p = 1$, "given that he falls" changes nothing:
+
+$$
+\mathbb{E}[\tau \mid \tau < \infty] = \mathbb{E}[\tau].
+$$
+
+Let
+
+$$
+m = \mathbb{E}[\tau \mid X_0 = 1].
+$$
+
+At the first step:
+
+- with probability $1/2$, he falls in 1 step;
+- with probability $1/2$, he goes to $2$, and must then fall from position $2$.
+
+By translation and the strong Markov property, the expected time to fall from position $2$ is:
+
+$$
+\mathbb{E}[\tau \mid X_0 = 2] = \underbrace{\mathbb{E}[\text{time from } 2 \text{ to } 1]}_{= m} + \underbrace{\mathbb{E}[\text{time from } 1 \text{ to } 0]}_{= m} = 2m.
+$$
+
+Counting the first step:
+
+$$
+m = \frac{1}{2} \cdot 1 + \frac{1}{2} \cdot (1 + 2m).
+$$
+
+Expanding:
+
+$$
+m = \frac{1}{2} + \frac{1}{2} + m
+\quad\Longrightarrow\quad
+m = 1 + m
+\quad\Longrightarrow\quad
+0 = 1,
+$$
+
+a contradiction.
+
+Therefore the assumption $m < \infty$ is false, and:
+
+$$
+\boxed{\mathbb{E}[\tau] = +\infty.}
+$$
+
+**Conclusion**
+
+$$
+\boxed{\mathbb{P}(\text{fall}) = 1 \quad\text{and}\quad \mathbb{E}[\tau] = +\infty.}
+$$
+
+This is a classic example of a stopping time $\tau$ that is almost surely finite, but has infinite expectation.

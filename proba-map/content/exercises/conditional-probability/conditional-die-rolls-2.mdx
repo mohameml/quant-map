@@ -1,0 +1,108 @@
+---
+id: "conditional-die-rolls-2"
+title: "Conditional Die Rolls 2"
+difficulty: "Medium"
+patterns: ["conditional-probability"]
+tags:
+    [
+        "probability",
+        "conditional-probability",
+        "geometric-distribution",
+        "expected-value",
+        "dice",
+    ]
+---
+
+## Problem
+
+Dan rolls a fair six-sided die until the first $6$ appears.
+Given that he observed at least one $5$ before the first $6$,
+determine the expected total number of rolls.
+
+## Hints
+
+<Hint n={1}>
+	Consider the first time a $5$ or a $6$ appears. What distribution does this
+	waiting time follow, and what happens under the given condition?
+</Hint>
+
+<Hint n={2}>
+	After the first $5$ appears, the process restarts independently. The
+	remaining number of rolls until a $6$ follows a well-known distribution.
+	Use linearity of expectation to combine the two phases.
+</Hint>
+
+## Solution
+
+We model the experiment as follows.
+
+Let $(X_n)_{n\geq 1}$ be a sequence of independent and identically distributed random variables,
+where $X_n$ represents the result of the $n$-th roll, with
+
+$$
+\mathbb{P}(X_n = k) = \frac{1}{6}, \quad k=1,\dots,6.
+$$
+
+Define the random variable
+
+$$
+N = \inf\{n \geq 1 \mid X_n = 6\},
+$$
+
+which represents the total number of rolls needed to obtain the first $6$.
+
+We condition on the event
+
+$$
+A = \{\text{at least one } 5 \text{ appears before the first } 6\}.
+$$
+
+**Step 1: Time of the first $5$ or $6$.**
+
+Let
+
+$$
+T = \inf\{n \geq 1 \mid X_n \in \{5,6\}\}.
+$$
+
+At each roll,
+
+$$
+\mathbb{P}(X_n \in \{5,6\}) = \frac{2}{6} = \frac{1}{3}.
+$$
+
+Thus, $T$ follows a geometric distribution with parameter $\frac{1}{3}$, and
+
+$$
+\mathbb{E}[T] = \frac{1}{1/3} = 3.
+$$
+
+Under event $A$, the first element of $\{5,6\}$ observed is necessarily a $5$.
+
+**Step 2: Waiting time for the first $6$ after a $5$.**
+
+After the first $5$ appears, the process restarts independently.
+Let $M$ be the number of rolls needed to obtain a $6$ from that point on.
+Then $M$ follows a geometric distribution with parameter $\frac{1}{6}$, and
+
+$$
+\mathbb{E}[M] = \frac{1}{1/6} = 6.
+$$
+
+**Step 3: Computation of the conditional expectation.**
+
+Under event $A$, the total number of rolls can be written as
+
+$$
+N = T + M.
+$$
+
+By linearity of expectation,
+
+$$
+\mathbb{E}[N \mid A] = \mathbb{E}[T] + \mathbb{E}[M] = 3 + 6 = 9.
+$$
+
+$$
+\boxed{\mathbb{E}[N \mid \text{at least one } 5 \text{ before the first } 6] = 9}
+$$

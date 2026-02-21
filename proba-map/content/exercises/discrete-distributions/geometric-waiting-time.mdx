@@ -1,0 +1,57 @@
+---
+id: "geometric-waiting-time"
+title: "Geometric Waiting Time"
+difficulty: "Easy"
+patterns: ["discrete-distributions"]
+tags: ["geometric-distribution", "expected-value", "dice"]
+---
+
+## Problem
+
+An experiment is repeated independently and identically (i.i.d.). At each trial, event $A$ occurs with probability $p = \mathbb{P}(A)$, with $0 < p \le 1$. Define the waiting time
+
+$$
+T = \inf\{n \ge 1:\ \text{$A$ occurs at the $n$-th trial}\}.
+$$
+
+1. **General question:** Show that $T$ follows a geometric distribution and compute $\mathbb{P}(T = n)$ for $n \ge 1$ and $\mathbb{E}[T]$.
+
+2. **Application (die roll):** How many rolls are needed on average to get a 4 for the first time?
+
+## Hints
+
+<Hint n={1}>
+For $T = n$, the first $n-1$ trials must be failures ($A^c$) and the $n$-th must be a success ($A$). Use independence to write $\mathbb{P}(T = n)$ as a product.
+</Hint>
+
+## Solution
+
+**1.** For $T = n$, the first $n-1$ trials must be failures ($A^c$), and the $n$-th trial must be a success ($A$). By independence,
+
+$$
+\mathbb{P}(T = n) = \mathbb{P}(A^c)^{n-1} \mathbb{P}(A) = (1-p)^{n-1} p, \qquad n \ge 1.
+$$
+
+Thus $T$ follows a geometric distribution with parameter $p$. Moreover,
+
+$$
+\mathbb{E}[T] = \sum_{n=1}^{\infty} n\,\mathbb{P}(T = n) = \sum_{n=1}^{\infty} n(1-p)^{n-1} p.
+$$
+
+Using the identity (for $|q| < 1$):
+
+$$
+\sum_{n=1}^{\infty} n q^{n-1} = \frac{1}{(1-q)^2},
+$$
+
+with $q = 1-p$ (where $0 \le q < 1$), we get
+
+$$
+\mathbb{E}[T] = p \cdot \frac{1}{(1-(1-p))^2} = p \cdot \frac{1}{p^2} = \frac{1}{p}.
+$$
+
+**2.** Here, $A = \{X = 4\}$ for a fair die, so $p = \mathbb{P}(A) = 1/6$. Therefore,
+
+$$
+\boxed{\mathbb{E}[T] = \frac{1}{p} = 6.}
+$$

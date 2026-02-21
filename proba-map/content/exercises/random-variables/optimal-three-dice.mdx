@@ -1,0 +1,87 @@
+---
+id: "optimal-three-dice"
+title: "Optimal Strategy with Three Dice Rolls"
+difficulty: "Medium"
+patterns: ["random-variables"]
+tags: ["dynamic-programming", "optimal-stopping", "expected-value", "dice"]
+---
+
+## Problem
+
+You play a game where you roll a die up to three times. After each roll, you can either take the number shown as your payoff in dollars, or re-roll. What is your expected payoff with an optimal strategy?
+
+## Hints
+
+<Hint n={1}>
+	Solve this by backward induction (dynamic programming). Start from the last
+	roll: since there is no choice left, the expected value is $3.5$. Then at
+	each earlier roll, compare the current value to the expected value of
+	continuing.
+</Hint>
+
+<Hint n={2}>
+	At roll 2, you should keep the result if it beats $V_3 = 3.5$, so keep if $x
+	\ge 4$. At roll 1, you should keep if the result beats $V_2$. Compute $V_2$
+	and $V_1$ using the law of total expectation.
+</Hint>
+
+## Solution
+
+**Dynamic programming principle:**
+
+We solve this problem by backward induction. At each step, we compare:
+
+- The current payoff $x$ (if we stop)
+- The expected future payoff (if we continue)
+
+We choose the action that maximizes the expectation.
+
+**Step 3 (last roll):**
+
+At the third roll, there is no choice: we must take the result.
+
+$$
+V_3 = \mathbb{E}[\text{die result}] = \frac{1 + 2 + 3 + 4 + 5 + 6}{6} = 3.5
+$$
+
+**Step 2 (second roll):**
+
+If we roll $x$, we choose between taking $x$ or re-rolling for $V_3 = 3.5$ in expectation.
+
+**Optimal strategy at roll 2:** Take $x$ if $x \ge 4$, otherwise re-roll.
+
+$$
+V_2 = \frac{3}{6} \cdot 3.5 + \frac{1}{6} \cdot 4 + \frac{1}{6} \cdot 5 + \frac{1}{6} \cdot 6
+= \frac{1}{2} \cdot 3.5 + \frac{15}{6}
+= 1.75 + 2.5
+= 4.25
+$$
+
+**Step 1 (first roll):**
+
+If we roll $x$, we choose between taking $x$ or re-rolling for $V_2 = 4.25$ in expectation.
+
+**Optimal strategy at roll 1:** Take $x$ if $x \ge 5$, otherwise re-roll.
+
+$$
+V_1 = \frac{4}{6} \cdot 4.25 + \frac{1}{6} \cdot 5 + \frac{1}{6} \cdot 6
+= \frac{2}{3} \cdot 4.25 + \frac{11}{6}
+= \frac{17}{6} + \frac{11}{6}
+= \frac{28}{6}
+= \frac{14}{3}
+\approx 4.667
+$$
+
+**Final answer:**
+
+$$
+\boxed{V_1 = \frac{14}{3} \approx 4.67 \text{ dollars}}
+$$
+
+**Optimal strategy summary:**
+
+- **Roll 1:** Keep if $x \ge 5$, otherwise re-roll
+- **Roll 2:** Keep if $x \ge 4$, otherwise re-roll
+- **Roll 3:** Keep the result (no choice)
+
+**Intuition:** The closer we get to the last roll, the more "tolerant" we become and accept lower values, because the option to re-roll becomes less attractive.

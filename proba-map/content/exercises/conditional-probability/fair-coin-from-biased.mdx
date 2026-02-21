@@ -1,0 +1,197 @@
+---
+id: "fair-coin-from-biased"
+title: "Fair Coin from Biased Coin (Von Neumann)"
+difficulty: "Hard"
+patterns: ["conditional-probability"]
+tags: ["conditional-probability", "von-neumann", "geometric-series", "classic"]
+---
+
+## Problem
+
+You have a biased coin:
+
+$$
+\mathbb{P}(H)=p,\qquad 0<p<1,
+$$
+
+where $p$ is unknown.
+
+You want to generate a **fair** coin flip (probability $1/2$) using only this coin, without knowing $p$.
+
+**Question:** What procedure do you use? Show that the output is fair.
+
+## Hints
+
+<Hint n={1}>
+	Think about pairs of flips. Among the four possible outcomes
+	$HH$, $HT$, $TH$, $TT$, can you find two that have the same probability
+	regardless of $p$?
+</Hint>
+
+<Hint n={2}>
+	Consider rejecting symmetric outcomes ($HH$ and $TT$) and only
+	keeping asymmetric ones ($HT$ and $TH$). What are their respective
+	probabilities?
+</Hint>
+
+<Hint n={3}>
+	To rigorously prove fairness, define the first accepted trial
+	$N$ and decompose $\mathbb{P}(Y=H)$ as a sum over all possible
+	values of $N$. You will obtain a geometric series.
+</Hint>
+
+## Solution
+
+**Procedure (Von Neumann's algorithm)**
+
+Repeat the following experiment:
+
+- Flip the coin **twice**.
+- If you get $HH$ or $TT$, **reject** and start over.
+- If you get $HT$, **output** $H$.
+- If you get $TH$, **output** $T$.
+
+### Method 1 — Intuition (conditioning)
+
+Consider an *accepted* trial, that is, the event
+
+$$
+A=\{HT\ \text{or}\ TH\}.
+$$
+
+We have:
+
+$$
+\mathbb{P}(HT)=p(1-p),\qquad \mathbb{P}(TH)=(1-p)p=p(1-p).
+$$
+
+Therefore:
+
+$$
+\mathbb{P}(HT\mid A)=\frac{\mathbb{P}(HT)}{\mathbb{P}(HT)+\mathbb{P}(TH)}
+=\frac{p(1-p)}{2p(1-p)}=\frac12.
+$$
+
+Thus, conditionally on accepting, $HT$ and $TH$ are equally likely, so the output is fair.
+
+$$
+\boxed{\mathbb{P}(Y=H)=\frac12 \quad\text{and}\quad \mathbb{P}(Y=T)=\frac12.}
+$$
+
+### Method 2 — Rigorous proof (via the first accepted trial)
+
+**Rigorous definition**
+
+We perform trials $k=1,2,3,\dots$.
+At trial $k$, we flip twice:
+
+$$
+(X_{k,1},X_{k,2})\in\{H,T\}^2.
+$$
+
+We define the acceptance event:
+
+$$
+A_k=\{(X_{k,1},X_{k,2})\in\{HT,TH\}\}.
+$$
+
+Then
+
+$$
+\mathbb{P}(A_k)=\mathbb{P}(HT)+\mathbb{P}(TH)=p(1-p)+(1-p)p=2p(1-p).
+$$
+
+We define the first accepted trial:
+
+$$
+N=\min\{k\ge 1:\ A_k\ \text{occurs}\}.
+$$
+
+Then we define the output variable:
+
+$$
+Y=
+\begin{cases}
+H & \text{if } (X_{N,1},X_{N,2})=HT,\\
+T & \text{if } (X_{N,1},X_{N,2})=TH.
+\end{cases}
+$$
+
+**Goal**
+
+Show:
+
+$$
+\mathbb{P}(Y=H)=\frac12.
+$$
+
+**Step 1 — Decomposition over $N$**
+
+$$
+\mathbb{P}(Y=H)=\sum_{n\ge 1}\mathbb{P}(Y=H,\ N=n).
+$$
+
+Now:
+
+$$
+\{Y=H,\ N=n\}
+=
+\big(A_1^c\cap\cdots\cap A_{n-1}^c\big)\ \cap\ \{(X_{n,1},X_{n,2})=HT\}.
+$$
+
+By independence between trials:
+
+$$
+\mathbb{P}(Y=H,\ N=n)=\mathbb{P}(A_1^c\cap\cdots\cap A_{n-1}^c)\cdot \mathbb{P}((X_{n,1},X_{n,2})=HT).
+$$
+
+**Step 2 — Computing each factor**
+
+$$
+\mathbb{P}((X_{n,1},X_{n,2})=HT)=p(1-p).
+$$
+
+Moreover:
+
+$$
+\mathbb{P}(A_k^c)=1-\mathbb{P}(A_k)=1-2p(1-p),
+$$
+
+so
+
+$$
+\mathbb{P}(A_1^c\cap\cdots\cap A_{n-1}^c)=\big(1-2p(1-p)\big)^{n-1}.
+$$
+
+Thus:
+
+$$
+\mathbb{P}(Y=H,\ N=n)=\big(1-2p(1-p)\big)^{n-1}\,p(1-p).
+$$
+
+**Step 3 — Geometric series**
+
+$$
+\mathbb{P}(Y=H)=\sum_{n\ge 1}\big(1-2p(1-p)\big)^{n-1}\,p(1-p).
+$$
+
+This is a geometric series with $r=1-2p(1-p)$, so
+
+$$
+\sum_{n\ge 1} r^{n-1}=\frac{1}{1-r}.
+$$
+
+Therefore:
+
+$$
+\mathbb{P}(Y=H)
+=
+p(1-p)\cdot\frac{1}{1-(1-2p(1-p))}
+=
+p(1-p)\cdot\frac{1}{2p(1-p)}
+=\frac12.
+$$
+
+$$
+\boxed{\mathbb{P}(Y=H)=\frac12,\qquad \mathbb{P}(Y=T)=\frac12.}
+$$

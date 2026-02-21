@@ -1,0 +1,111 @@
+---
+id: "two-consecutive-heads"
+title: "Expected Time for Two Consecutive Heads"
+difficulty: "Medium"
+patterns: ["markov-chains"]
+tags: ["markov-chains", "absorption-time", "expected-value", "coin-toss"]
+---
+
+## Problem
+
+A fair coin (probability $\frac{1}{2}$ for Heads and $\frac{1}{2}$ for Tails) is tossed repeatedly and independently.
+
+**Question:** What is the expected number of tosses needed to get two consecutive Heads?
+
+## Hints
+
+<Hint n={1}>
+Model the problem as a Markov chain with three states based on the current streak of consecutive Heads: 0, 1, or 2 (absorbing). Write the transition probabilities.
+</Hint>
+
+<Hint n={2}>
+Let $E_i$ be the expected number of tosses to reach the absorbing state from state $i$. Use the absorption time formula $E_i = 1 + \sum_{j \in T} P_{ij} E_j$ to set up a system of two equations.
+</Hint>
+
+## Solution
+
+**Reminder — Mean Absorption Time:**
+
+An absorbing state $i$ satisfies $P_{ii} = 1$. For a Markov chain with transient states $T$ and absorbing states $A$, the mean absorption time $\tau_i$ from state $i \in T$ satisfies:
+
+$$
+\tau_i = 1 + \sum_{j \in T} P_{ij} \tau_j,
+$$
+
+with boundary condition $\tau_i = 0$ for $i \in A$.
+
+**Markov chain modeling**
+
+Define the following states:
+
+- **State 0**: initial state, or the last toss was Tails (T)
+- **State 1**: the last toss was Heads (H), but not two consecutive Heads yet
+- **State 2**: two consecutive Heads obtained (absorbing state)
+
+**Transition matrix**
+
+$$
+P = \begin{pmatrix}
+\frac{1}{2} & \frac{1}{2} & 0 \\
+\frac{1}{2} & 0 & \frac{1}{2} \\
+0 & 0 & 1
+\end{pmatrix}
+$$
+
+**System of equations**
+
+Let $E_i$ be the expected number of tosses to reach the absorbing state 2 from state $i$.
+
+**For state 0:**
+
+$$
+E_0 = 1 + \frac{1}{2} E_0 + \frac{1}{2} E_1
+$$
+
+**For state 1:**
+
+$$
+E_1 = 1 + \frac{1}{2} E_0 + \frac{1}{2} \cdot 0
+$$
+
+From the second equation:
+
+$$
+E_1 = 1 + \frac{1}{2} E_0
+$$
+
+Substituting into the first equation:
+
+$$
+E_0 = 1 + \frac{1}{2} E_0 + \frac{1}{2}\left(1 + \frac{1}{2} E_0\right)
+$$
+
+$$
+E_0 = 1 + \frac{1}{2} E_0 + \frac{1}{2} + \frac{1}{4} E_0
+$$
+
+$$
+E_0 = \frac{3}{2} + \frac{3}{4} E_0
+$$
+
+$$
+\frac{1}{4} E_0 = \frac{3}{2}
+$$
+
+$$
+E_0 = 6
+$$
+
+And therefore:
+
+$$
+E_1 = 1 + \frac{1}{2} \cdot 6 = 4
+$$
+
+$$
+\boxed{\text{The expected number of tosses to get two consecutive Heads is } 6.}
+$$
+
+**Interpretation:** This result may seem counter-intuitive: although the probability of getting HH in two tosses is $\frac{1}{4}$, the expected time is 6, not 4. This is because when we get a Tail after a Head (sequence HT), we must restart completely, which increases the expected time.
+
+**Generalization:** For $k$ consecutive Heads with a fair coin, the expected time is $E = 2^{k+1} - 2$. For $k = 2$: $E = 2^3 - 2 = 6$.

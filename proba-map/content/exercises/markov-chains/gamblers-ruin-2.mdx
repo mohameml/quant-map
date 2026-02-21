@@ -1,0 +1,147 @@
+---
+id: "gamblers-ruin-2"
+title: "Gambler's Ruin 2"
+difficulty: "Hard"
+patterns: ["markov-chains"]
+tags: ["markov-chains", "martingale", "optional-stopping", "random-walk", "classic"]
+---
+
+## Problem
+
+You have 100€ and play a coin-toss game, betting 1€ each round. You stop when you reach 0€ or 200€.
+
+**Q1.** What is the probability of finishing at 200€?
+
+**Q2.** What if the coin is biased with $P(\text{Heads}) = p \neq 1/2$?
+
+**Q3.** In the fair case ($p = 1/2$), what is the expected number of rounds before the game ends?
+
+## Hints
+
+<Hint n={1}>
+For Q1, note that the random walk $X_k = X_0 + \sum \varepsilon_i$ with $E[\varepsilon_i] = 0$ is a martingale. Apply the Optional Stopping Theorem at the stopping time $\tau = \inf\{n : X_n \in \{0, 200\}\}$.
+</Hint>
+
+<Hint n={2}>
+For Q2, find a function $f(x) = \lambda^x$ such that $f(X_k)$ is a martingale when $p \neq 1/2$. The condition $p\lambda + q\lambda^{-1} = 1$ leads to $\lambda = q/p$.
+</Hint>
+
+<Hint n={3}>
+For Q3, show that $M_k = X_k^2 - k$ is a martingale by computing $E[X_{k+1}^2 \mid \mathcal{F}_k]$. Apply the Optional Stopping Theorem to this new martingale.
+</Hint>
+
+## Solution
+
+**Q1. Fair coin ($p = 1/2$)**
+
+**Modeling.** Let $X_k = X_0 + \sum_{i=1}^{k} \varepsilon_i$ where $\varepsilon_i = \pm 1$ with probability $1/2$. Since $E[\varepsilon_i] = 0$, the process $(X_k)_{k \ge 0}$ is a **martingale**.
+
+**Stopping time.** Define $\tau = \inf\{n \in \mathbb{N} : X_n = 0 \text{ or } X_n = 200\}$.
+
+**Optional Stopping Theorem.** Since $X_\tau$ is bounded ($0 \le X_\tau \le 200$) and $\tau < \infty$ a.s., we can apply the Optional Stopping Theorem:
+
+$$
+E[X_\tau] = E[X_0] = 100.
+$$
+
+Decomposing $E[X_\tau]$:
+
+$$
+E[X_\tau] = 0 \cdot P(X_\tau = 0) + 200 \cdot P(X_\tau = 200) = 100
+$$
+
+$$
+\boxed{P(X_\tau = 200) = \frac{1}{2}}
+$$
+
+**Q2. Biased coin ($p \neq 1/2$)**
+
+When $p \neq 1/2$, $X_k$ is no longer a martingale since $E[X_{k+1} | X_k] = X_k + (p - q) \neq X_k$. We need to find a new martingale.
+
+**Finding the right martingale.** We look for $f(x) = \lambda^x$ such that $(f(X_k))_k$ is a martingale. The condition $E[f(X_{k+1}) | X_k] = f(X_k)$ gives:
+
+$$
+p f(X_k + 1) + q f(X_k - 1) = f(X_k)
+$$
+
+$$
+p \cdot \lambda^{X_k + 1} + q \cdot \lambda^{X_k - 1} = \lambda^{X_k}
+$$
+
+Dividing by $\lambda^{X_k}$:
+
+$$
+p\lambda + q\lambda^{-1} = 1 \implies p\lambda^2 - \lambda + q = 0
+$$
+
+The solutions are:
+
+$$
+\lambda = \frac{1 \pm \sqrt{1 - 4pq}}{2p} = \frac{1 \pm (p - q)}{2p}
+$$
+
+which gives $\lambda = 1$ (trivial) or $\lambda = q/p$. Therefore:
+
+$$
+M_k = \left(\frac{q}{p}\right)^{X_k} \text{ is a martingale.}
+$$
+
+**Applying the Optional Stopping Theorem to $M_k$:**
+
+$$
+E[M_\tau] = E[M_0] = \left(\frac{q}{p}\right)^{100}
+$$
+
+$$
+\left(\frac{q}{p}\right)^{0} \cdot P(X_\tau = 0) + \left(\frac{q}{p}\right)^{200} \cdot P(X_\tau = 200) = \left(\frac{q}{p}\right)^{100}
+$$
+
+Using $P(X_\tau = 0) = 1 - P(X_\tau = 200)$ and solving:
+
+$$
+\boxed{P(X_\tau = 200) = \frac{(q/p)^{100} - 1}{(q/p)^{200} - 1}}
+$$
+
+**Q3. Expected duration $E[\tau]$ in the fair case**
+
+**Finding another martingale.** We claim that $M_k = X_k^2 - k$ is a martingale.
+
+**Proof.** Since $X_{k+1} = X_k + \varepsilon_{k+1}$:
+
+$$
+X_{k+1}^2 = X_k^2 + 2X_k \varepsilon_{k+1} + \varepsilon_{k+1}^2
+$$
+
+Taking conditional expectations:
+
+$$
+E[X_{k+1}^2 \mid \mathcal{F}_k] = X_k^2 + 2X_k \underbrace{E[\varepsilon_{k+1}]}_{= 0} + \underbrace{E[\varepsilon_{k+1}^2]}_{= 1} = X_k^2 + 1
+$$
+
+Therefore:
+
+$$
+E[X_{k+1}^2 - (k+1) \mid \mathcal{F}_k] = X_k^2 + 1 - (k+1) = X_k^2 - k \quad \checkmark
+$$
+
+**Applying the Optional Stopping Theorem to $M_k = X_k^2 - k$:**
+
+$$
+E[X_\tau^2 - \tau] = E[X_0^2] = 100^2 = 10\,000
+$$
+
+Computing $E[X_\tau^2]$ using the result from Q1:
+
+$$
+E[X_\tau^2] = 0^2 \cdot \frac{1}{2} + 200^2 \cdot \frac{1}{2} = 20\,000
+$$
+
+Therefore:
+
+$$
+20\,000 - E[\tau] = 10\,000
+$$
+
+$$
+\boxed{E[\tau] = 10\,000}
+$$

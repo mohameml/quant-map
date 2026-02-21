@@ -68,23 +68,25 @@ from graphviz import Digraph
 
 topics = [
   ("combinatorics", "Combinatorics"),
-  ("fundamentals", "Fundamentals of Probability"),
+  # ("fundamentals", "Fundamentals of Probability"),
   ("random-variables", "Random Variables"),
   ("conditional-probability", "Conditional Probability"),
   ("discrete-distributions", "Discrete Distributions"),
   ("continuous-distributions", "Continuous Distributions"),
   ("joint-distributions", "Joint Distributions & Random Vectors"),
-  ("convergence", "Convergence"),
+  # ("convergence", "Convergence"),
   ("simulation", "Simulation & Monte Carlo"),
   ("markov-chains", "Markov Chains"),
   ("statistics", "Statistical Inference"),
   ("time-series", "Time Series"),
-  ("conditional-expectation", "Conditional Expectation"),
+  # ("conditional-expectation", "Conditional Expectation"),
   ("brownian-motion", "Brownian Motion"),
   ("martingales", "Martingales"),
   ("stopping-times", "Stopping Times"),
-  ("ito-calculus", "Itô Calculus"),
-  ("sdes", "Stochastic Differential Equations"),
+  ("calcul-sto" , "Calcul Stochastiques"),
+
+  # ("ito-calculus", "Itô Calculus"),
+  # ("sdes", "Stochastic Differential Equations"),
 ]
 
 # deps = {
@@ -130,25 +132,47 @@ topics = [
 # }
 
 
+# deps = {
+#   "combinatorics": [],
+#   "fundamentals": ["combinatorics"],
+#   "random-variables": ["fundamentals"],
+#   "conditional-probability": ["fundamentals"],
+#   "discrete-distributions": ["random-variables"],
+#   "continuous-distributions": ["random-variables"],
+#   "joint-distributions": ["continuous-distributions"],  
+#   "convergence": ["random-variables"],
+#   "simulation": ["joint-distributions"],
+#   "markov-chains": ["conditional-probability"],
+#   "statistics": ["convergence"],  
+#   "time-series": ["statistics"],
+#   "conditional-expectation": ["conditional-probability"],
+#   "brownian-motion": ["continuous-distributions"],
+#   "martingales": ["conditional-expectation", "brownian-motion"],
+#   "stopping-times": ["martingales"],
+#   "ito-calculus": ["martingales"],  
+#   "sdes": ["ito-calculus"],
+# }
+
 deps = {
   "combinatorics": [],
-  "fundamentals": ["combinatorics"],
-  "random-variables": ["fundamentals"],
-  "conditional-probability": ["fundamentals"],
+  "random-variables": ["combinatorics"],
+  "conditional-probability": ["random-variables"],
   "discrete-distributions": ["random-variables"],
   "continuous-distributions": ["random-variables"],
   "joint-distributions": ["continuous-distributions"],  
-  "convergence": ["random-variables"],
+  # "convergence": ["discrete-distributions" ,"continuous-distributions" ],
   "simulation": ["joint-distributions"],
   "markov-chains": ["conditional-probability"],
-  "statistics": ["convergence"],  
+  "statistics": ["continuous-distributions" , "discrete-distributions"],  
   "time-series": ["statistics"],
-  "conditional-expectation": ["conditional-probability"],
+  # "conditional-expectation": ["conditional-probability"],
   "brownian-motion": ["continuous-distributions"],
-  "martingales": ["conditional-expectation", "brownian-motion"],
+  "martingales": ["brownian-motion"],
   "stopping-times": ["martingales"],
-  "ito-calculus": ["martingales"],  
-  "sdes": ["ito-calculus"],
+  "calcul-sto" : ["brownian-motion"],
+  # "ito-calculus": ["martingales"],  
+  # "sdes": ["ito-calculus"],
+
 }
 
 # Render PNG with Graphviz

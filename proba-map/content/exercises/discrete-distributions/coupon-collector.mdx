@@ -1,0 +1,81 @@
+---
+id: "coupon-collector"
+title: "The Coupon Collector Problem"
+difficulty: "Medium"
+patterns: ["discrete-distributions"]
+tags: ["geometric-distribution", "harmonic-numbers", "linearity-of-expectation", "classic"]
+---
+
+## Problem
+
+There are $N$ different types of cards in cereal boxes. Each box contains a card chosen uniformly at random among the $N$ types. How many boxes must you buy on average to complete the full collection?
+
+## Hints
+
+<Hint n={1}>
+Break the process into phases: let $T_i$ be the number of purchases needed to find the $i$-th new card, given you already have $i-1$ distinct cards. What is the probability of getting a new card in this phase?
+</Hint>
+
+<Hint n={2}>
+Each $T_i$ follows a geometric distribution with parameter $p_i = \frac{N - (i-1)}{N}$. Use linearity of expectation on $T = T_1 + T_2 + \cdots + T_N$.
+</Hint>
+
+## Solution
+
+Let $T_i$ be the number of purchases needed to find the $i$-th new card, given you already have $i-1$ distinct cards.
+
+**Distribution of $T_i$:**
+
+When you have $i-1$ cards, each purchase yields a new card with probability:
+
+$$
+p_i = \frac{N - (i-1)}{N}
+$$
+
+since there are $N - (i-1)$ cards you don't yet have among the $N$ types. Each purchase is independent, so $T_i$ counts the number of trials until the first success:
+
+$$
+T_i \sim \mathrm{Geom}(p_i) \qquad \text{with} \quad \mathbb{E}[T_i] = \frac{1}{p_i} = \frac{N}{N - i + 1}
+$$
+
+**Total number of boxes:**
+
+The total number of boxes purchased to complete the collection is:
+
+$$
+T = T_1 + T_2 + \cdots + T_N
+$$
+
+The $T_i$ are independent (each phase starts after the previous one). By linearity of expectation:
+
+$$
+\mathbb{E}[T] = \sum_{i=1}^{N} \mathbb{E}[T_i] = \sum_{i=1}^{N} \frac{N}{N - i + 1} = N \sum_{i=1}^{N} \frac{1}{i}
+$$
+
+$$
+\boxed{\mathbb{E}[T] = N \cdot H_N = N \sum_{i=1}^{N} \frac{1}{i}}
+$$
+
+where $H_N = \sum_{i=1}^{N} \frac{1}{i}$ is the $N$-th harmonic number.
+
+**Asymptotic equivalent:**
+
+Using the classical expansion $H_N = \ln(N) + \gamma + O\!\left(\frac{1}{N}\right)$, where $\gamma \approx 0.5772$ is the Euler–Mascheroni constant:
+
+$$
+\boxed{\mathbb{E}[T] \underset{N \to \infty}{\sim} N \ln(N)}
+$$
+
+**Variance:**
+
+Since the $T_i$ are independent, $\mathrm{Var}(T_i) = \frac{1 - p_i}{p_i^2}$, so:
+
+$$
+\mathrm{Var}(T) = \sum_{i=1}^{N} \frac{1 - p_i}{p_i^2} = N^2 \sum_{i=1}^{N} \frac{1}{i^2} - N\sum_{i=1}^{N}\frac{1}{i}
+$$
+
+Asymptotically, since $\sum_{i=1}^{N} \frac{1}{i^2} \to \frac{\pi^2}{6}$:
+
+$$
+\mathrm{Var}(T) \underset{N \to \infty}{\sim} \frac{\pi^2}{6}\,N^2
+$$

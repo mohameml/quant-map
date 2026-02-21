@@ -1,0 +1,80 @@
+---
+id: "three-heads-in-a-row"
+title: "Expected Tosses for Three Heads in a Row"
+difficulty: "Medium"
+patterns: ["markov-chains"]
+tags: ["markov-chains", "absorption-time", "expected-value", "coin-toss"]
+---
+
+## Problem
+
+For a fair coin, what is the expected number of tosses to get three heads in a row?
+
+## Hints
+
+<Hint n={1}>
+Model this with a Markov chain with four states $S_0, S_1, S_2, S_3$ based on the current streak of consecutive heads. State $S_3$ is the absorbing state.
+</Hint>
+
+<Hint n={2}>
+From each state $S_k$ ($k < 3$), a Head moves to $S_{k+1}$ and a Tail resets to $S_0$. Set up the absorption time equations $E_k = 1 + \frac{1}{2} E_{k+1} + \frac{1}{2} E_0$ and solve by back-substitution.
+</Hint>
+
+## Solution
+
+We model this problem using a Markov chain with four states based on the current streak of consecutive heads:
+
+- $S_0$: 0 consecutive heads (start or after a tail)
+- $S_1$: 1 consecutive head
+- $S_2$: 2 consecutive heads
+- $S_3$: 3 consecutive heads (absorbing state — goal reached)
+
+**System of equations:**
+
+Let $E_i$ be the expected number of tosses to reach $S_3$ starting from state $S_i$.
+
+From each state, we toss the coin (cost 1). With probability $\frac{1}{2}$ we get heads (move forward), with probability $\frac{1}{2}$ we get tails (return to $S_0$):
+
+$$
+E_0 = 1 + \frac{1}{2}\,E_1 + \frac{1}{2}\,E_0
+$$
+
+$$
+E_1 = 1 + \frac{1}{2}\,E_2 + \frac{1}{2}\,E_0
+$$
+
+$$
+E_2 = 1 + \frac{1}{2} \cdot 0 + \frac{1}{2}\,E_0
+$$
+
+**Solving:**
+
+From the first equation:
+
+$$
+\frac{1}{2}E_0 = 1 + \frac{1}{2}E_1 \implies E_0 = 2 + E_1
+$$
+
+From the third equation:
+
+$$
+E_2 = 1 + \frac{1}{2}E_0
+$$
+
+From the second equation:
+
+$$
+E_1 = 1 + \frac{1}{2}E_2 + \frac{1}{2}E_0 = 1 + \frac{1}{2}\left(1 + \frac{1}{2}E_0\right) + \frac{1}{2}E_0 = \frac{3}{2} + \frac{3}{4}E_0
+$$
+
+Substituting into $E_0 = 2 + E_1$:
+
+$$
+E_0 = 2 + \frac{3}{2} + \frac{3}{4}E_0 = \frac{7}{2} + \frac{3}{4}E_0
+$$
+
+$$
+\frac{1}{4}E_0 = \frac{7}{2} \implies \boxed{E_0 = 14}
+$$
+
+The expected number of tosses to get three heads in a row is $14$.

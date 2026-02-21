@@ -1,0 +1,165 @@
+---
+id: "baby-and-the-couch"
+title: "Baby and the Couch"
+difficulty: "Hard"
+patterns: ["markov-chains"]
+tags: ["markov-chains", "stationary-distribution", "geometric-series", "classic"]
+---
+
+## Problem
+
+A baby is learning to walk with the assistance of its living room couch. The baby starts at the couch and at each time step makes a decision:
+
+- take a step forward with probability $0.2$,
+- stay in place with probability $0.5$,
+- take a step back (towards the couch) with probability $0.3$.
+
+The baby can never go behind the couch. Therefore, when the baby is at the couch, it moves forward with probability $0.2$ and stays at the couch with probability $0.8$.
+
+If you observe the baby for an extremely long time, what proportion of the time is the baby at the couch?
+
+## Hints
+
+<Hint n={1}>
+Model the baby's distance from the couch as a Markov chain on the state space $S = \{0, 1, 2, \dots\}$. Write the transition matrix noting the special boundary condition at state $0$.
+</Hint>
+
+<Hint n={2}>
+The long-run proportion of time spent at the couch is the stationary probability $\pi_0$. Write the balance equations $\pi = \pi P$ and look for a geometric solution of the form $\pi_i = C r^i$.
+</Hint>
+
+<Hint n={3}>
+You should find a characteristic equation $0.3r^2 - 0.5r + 0.2 = 0$ with roots $r = 1$ and $r = 2/3$. Only $r = 2/3$ gives a summable distribution. Use the normalization $\sum \pi_i = 1$ to find $\pi_0$.
+</Hint>
+
+## Solution
+
+**Markov chain reminder:**
+
+Let $(X_n)_{n\ge 0}$ be a Markov chain on a countable state space $S$ with transition matrix $P = (p_{ij})_{i,j\in S}$ where
+
+$$
+p_{ij} = \mathbb{P}(X_{n+1} = j \mid X_n = i).
+$$
+
+A probability vector $\pi = (\pi_i)_{i\in S}$ is called a stationary (equilibrium) distribution if
+
+$$
+\pi = \pi P
+\qquad\text{and}\qquad
+\sum_{i\in S}\pi_i = 1,\;\pi_i \ge 0.
+$$
+
+When the chain is irreducible and positive recurrent, the stationary distribution is unique and $\pi_i$ represents the proportion of time spent in state $i$ as time goes to infinity.
+
+**a. Modeling: state space and Markov property**
+
+Let $X_n$ denote the distance (in number of steps) between the baby and the couch at time $n$. The state space is
+
+$$
+S = \{0, 1, 2, \dots\},
+$$
+
+where $0$ means "at the couch."
+
+**b. Transition matrix $P$**
+
+For $i \ge 1$:
+
+$$
+p_{i,i+1} = 0.2, \qquad p_{i,i} = 0.5, \qquad p_{i,i-1} = 0.3,
+$$
+
+and all other $p_{i,j} = 0$.
+
+At the boundary $i = 0$ (couch):
+
+$$
+p_{0,1} = 0.2, \qquad p_{0,0} = 0.8,
+$$
+
+and $p_{0,j} = 0$ otherwise.
+
+**c. Equilibrium distribution**
+
+The long-run proportion of time spent in each state is given by the stationary distribution $\pi = (\pi_i)_{i\ge 0}$. The quantity we seek is $\pi_0$.
+
+**d. Balance equations**
+
+**Equation at $i = 0$:**
+The only transitions leading to $0$ are: $0 \to 0$ and $1 \to 0$. Thus
+
+$$
+\pi_0 = \pi_0 \cdot 0.8 + \pi_1 \cdot 0.3,
+$$
+
+which gives
+
+$$
+0.2\,\pi_0 = 0.3\,\pi_1
+\qquad\Longrightarrow\qquad
+\pi_1 = \frac{2}{3}\pi_0.
+$$
+
+**Equation at $i \ge 1$:**
+One can arrive at $i$ from $i-1$ (step forward), from $i$ (stay), or from $i+1$ (step back):
+
+$$
+\pi_i = 0.2\,\pi_{i-1} + 0.5\,\pi_i + 0.3\,\pi_{i+1}.
+$$
+
+Rearranging:
+
+$$
+0.3\,\pi_{i+1} = 0.5\,\pi_i - 0.2\,\pi_{i-1}.
+$$
+
+**e. General form of $\pi_i$**
+
+We look for a solution of the form $\pi_i = C r^i$. Substituting into the recurrence for $i \ge 1$:
+
+$$
+r = 0.2 + 0.5 r + 0.3 r^2,
+$$
+
+i.e.
+
+$$
+0.3r^2 - 0.5r + 0.2 = 0.
+$$
+
+The discriminant is $\Delta = 0.25 - 0.24 = 0.01$, so
+
+$$
+r = \frac{0.5 \pm 0.1}{0.6} \in \left\{1,\;\frac{2}{3}\right\}.
+$$
+
+The root $r = 1$ would give a constant sequence that is not summable on $\{0,1,2,\dots\}$, so it is impossible for a probability distribution. We retain
+
+$$
+\pi_i = \pi_0 \left(\frac{2}{3}\right)^i, \qquad i \ge 0.
+$$
+
+**f. Normalization**
+
+Using $\sum_{i=0}^\infty \pi_i = 1$:
+
+$$
+1 = \sum_{i=0}^{\infty} \pi_0 \left(\frac{2}{3}\right)^i
+= \pi_0 \cdot \frac{1}{1 - \frac{2}{3}}
+= \pi_0 \cdot 3,
+$$
+
+thus
+
+$$
+\pi_0 = \frac{1}{3}.
+$$
+
+**Conclusion**
+
+The proportion of time (over a very long horizon) during which the baby is at the couch is
+
+$$
+\boxed{\pi_0 = \frac{1}{3}}.
+$$

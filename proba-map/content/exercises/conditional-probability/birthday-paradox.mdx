@@ -1,0 +1,96 @@
+---
+id: "birthday-paradox"
+title: "The Birthday Paradox"
+difficulty: "Medium"
+patterns: ["conditional-probability"]
+tags: ["counting", "complement", "approximation", "classic"]
+---
+
+## Problem
+
+In a room, there are $n$ people. Assume that birthdays are uniformly distributed over the 365 days of the year (ignoring leap years), and that birthdays are independent.
+
+What is the minimum number of people $n$ such that the probability that at least two people share the same birthday exceeds 50%?
+
+## Hints
+
+<Hint n={1}>
+	Consider the complementary event: "all $n$ people have distinct birthdays."
+	Use the product rule to compute this probability.
+</Hint>
+
+<Hint n={2}>
+	Use the approximation $\ln(1 - x) \approx -x$ for small $x$ to simplify the
+	product $\prod_{(k = 0)}^{n - 1}\left(1 - \frac{k}
+	{365}\right)$ and solve the resulting inequality.
+</Hint>
+
+## Solution
+
+**Complementary approach:**
+
+Let $A$ be the event "at least two people share the same birthday" and $J_i$ the birthday of person $i$. We have:
+
+$$
+P(A) = 1 - P(\bar{A}) = 1 - P\!\left(\forall\, i \neq j,\; J_i \neq J_j\right)
+$$
+
+**Computing $P(\bar{A})$:**
+
+Let $A_k$ be the event "the $k$-th person has a birthday different from all previous ones." Then:
+
+$$
+P(\bar{A}) = P\!\left(\bigcap_{k=2}^{n} A_k\right)
+$$
+
+By the chain rule of conditional probabilities:
+
+$$
+P\!\left(\bigcap_{k=2}^{n} A_k\right) = \prod_{k=2}^{n} P\!\left(A_k \mid A_2 \cap A_3 \cap \cdots \cap A_{k-1}\right)
+$$
+
+Given that the first $k-1$ people all have distinct birthdays, the $k$-th person must avoid $k-1$ days out of 365:
+
+$$
+P\!\left(A_k \mid A_2 \cap \cdots \cap A_{k-1}\right) = \frac{365 - (k-1)}{365}
+$$
+
+Therefore:
+
+$$
+P(\bar{A}) = \prod_{k=0}^{n-1} \left(1 - \frac{k}{365}\right)
+$$
+
+**Approximation:**
+
+Using $\ln(1 - x) \approx -x$ for small $x$:
+
+$$
+\ln P(\bar{A}) = \sum_{k=0}^{n-1} \ln\!\left(1 - \frac{k}{365}\right) \approx -\sum_{k=0}^{n-1} \frac{k}{365} = -\frac{n(n-1)}{2 \times 365}
+$$
+
+Thus:
+
+$$
+P(\bar{A}) \approx e^{-\frac{n(n-1)}{730}}
+$$
+
+We seek $n$ such that $P(A) > \frac{1}{2}$, i.e. $P(\bar{A}) < \frac{1}{2}$:
+
+$$
+e^{-\frac{n(n-1)}{730}} < \frac{1}{2} \implies \frac{n(n-1)}{730} > \ln 2 \implies n(n-1) > 730 \ln 2 \approx 505.97
+$$
+
+Approximating $n(n-1) \approx n^2$:
+
+$$
+n > \sqrt{730 \ln 2} \approx 22.49
+$$
+
+Therefore $n \geq 23$.
+
+$$
+\boxed{n = 23}
+$$
+
+It takes only 23 people for the probability that at least two share the same birthday to exceed 50%. This often counter-intuitive result is known as the **birthday paradox**.

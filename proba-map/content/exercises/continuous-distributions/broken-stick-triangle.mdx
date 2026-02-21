@@ -1,0 +1,85 @@
+---
+id: "broken-stick-triangle"
+title: "The Broken Stick Triangle"
+difficulty: "Hard"
+patterns: ["continuous-distributions"]
+tags: ["uniform-distribution", "geometric-probability", "triangle-inequality", "classic"]
+---
+
+## Problem
+
+Take a stick of length 1. Two points are chosen uniformly at random on the stick, breaking it into three pieces. What is the probability that the three pieces can form a triangle?
+
+## Hints
+
+<Hint n={1}>
+Three segments of lengths $a$, $b$, $c$ with $a + b + c = 1$ form a triangle if and only if all three are less than $1/2$. Simplify the triangle inequality using $a + b + c = 1$.
+</Hint>
+
+<Hint n={2}>
+Let $U, V \sim \mathcal{U}(0,1)$ be the two break points. Without loss of generality, assume $U < V$. Then $a = U$, $b = V - U$, $c = 1 - V$. Translate the conditions $a, b, c < 1/2$ into inequalities on $U$ and $V$.
+</Hint>
+
+<Hint n={3}>
+Draw the feasible region in the unit square (restricted to $U < V$) and compute its area. The favorable region is a triangle with vertices $(0, 1/2)$, $(1/2, 1/2)$, and $(1/2, 1)$.
+</Hint>
+
+## Solution
+
+**Part 1: Simplifying the condition.**
+
+Let $a$, $b$, $c$ be the lengths of the three pieces. A triangle can be formed if and only if the triangle inequality holds:
+
+$$
+P(\triangle) = P(a + b > c \;\cap\; a + c > b \;\cap\; b + c > a)
+$$
+
+Since $a + b + c = 1$, we have $a + b = 1 - c$. Thus $a + b > c \iff 1 - c > c \iff c < \frac{1}{2}$. The same applies to the other two inequalities. Therefore:
+
+$$
+P(\triangle) = P\!\left(a < \frac{1}{2} \;\cap\; b < \frac{1}{2} \;\cap\; c < \frac{1}{2}\right)
+$$
+
+**Part 2: Computing the probability.**
+
+Let $U \sim \mathcal{U}(0,1)$ and $V \sim \mathcal{U}(0,1)$ be the two break points, chosen independently. The pair $(U, V)$ is uniform on the unit square $[0,1]^2$. The three pieces are:
+
+$$
+a = \min(U, V), \qquad b = |V - U|, \qquad c = 1 - \max(U, V)
+$$
+
+By the law of total probability:
+
+$$
+P(\triangle) = P(\triangle \mid U < V)\,P(U < V) + P(\triangle \mid V < U)\,P(V < U)
+$$
+
+Since $P(U < V) = P(V < U) = \frac{1}{2}$ and by symmetry $P(\triangle \mid U < V) = P(\triangle \mid V < U)$:
+
+$$
+P(\triangle) = P(\triangle \mid U < V)
+$$
+
+**Without loss of generality**, assume $U < V$. Then $a = U$, $b = V - U$, $c = 1 - V$, and:
+
+$$
+P(\triangle) = P\!\left(U < \frac{1}{2} \;\cap\; V - U < \frac{1}{2} \;\cap\; 1 - V < \frac{1}{2}\right) = P\!\left(U < \frac{1}{2} \;\cap\; V < U + \frac{1}{2} \;\cap\; V > \frac{1}{2}\right)
+$$
+
+The favorable region $\mathcal{D}$ in the unit square (under the constraint $U < V$) is the triangle with vertices $\left(0, \frac{1}{2}\right)$, $\left(\frac{1}{2}, \frac{1}{2}\right)$, $\left(\frac{1}{2}, 1\right)$, whose area is:
+
+$$
+\mathcal{A}(\mathcal{D}) = \frac{1}{2} \times \frac{1}{2} \times \frac{1}{2} = \frac{1}{8}
+$$
+
+Since $(U, V)$ is uniform on the unit square of area 1:
+
+$$
+P(\triangle \mid U < V) = \frac{\mathcal{A}(\mathcal{D})}{P(U < V)} = \frac{\frac{1}{8}}{\frac{1}{2}} = \frac{1}{4}
+$$
+
+Finally:
+
+$$
+\boxed{P(\triangle) = \frac{1}{4}}
+$$

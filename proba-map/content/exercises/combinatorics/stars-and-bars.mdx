@@ -1,0 +1,63 @@
+---
+id: "stars-and-bars"
+title: "Stars and Bars"
+difficulty: "Easy"
+patterns: ["combinatorics"]
+tags: ["counting", "stars-and-bars", "combinatorics"]
+---
+
+## Problem
+
+A trader allocates a total capital of $N$ units (indistinguishable) among $K$ distinct strategies. Each strategy can receive zero or more units.
+
+**Q1:** How many different allocations are possible?
+
+**Q2:** How many allocations are possible if each strategy must receive at least one unit?
+
+## Hints
+
+<Hint n={1}>
+Think of the $N$ units as stars and use $K-1$ separators (bars) to form $K$ groups. Count the number of ways to place the bars among the stars.
+</Hint>
+
+## Solution
+
+**Stars and Bars principle reminder:**
+
+The Stars and Bars principle counts the number of integer solutions to an equation of the form
+
+$$
+x_1 + x_2 + \cdots + x_K = N, \qquad x_i \ge 0.
+$$
+
+We interpret $N$ as $N$ indistinguishable objects (stars) and use $K-1$ separators (bars) to form $K$ groups, each corresponding to a variable $x_i$. The number of solutions is
+
+$$
+\binom{N+K-1}{K-1}.
+$$
+
+Similarly, if we impose $x_i \ge 1$, we set $y_i = x_i - 1$ (so $y_i \ge 0$) and reduce to
+
+$$
+y_1 + \cdots + y_K = N - K,
+$$
+
+which gives $\binom{N-1}{K-1}$ (for $N \ge K$).
+
+**1. Allocation without minimum constraint**
+
+Let $x_i$ = number of units allocated to strategy $i$, for $i = 1, \dots, K$. The constraints are $x_1 + \cdots + x_K = N$ with $x_i \ge 0$. By Stars and Bars,
+
+$$
+\boxed{\#\text{allocations} = \binom{N+K-1}{K-1}}.
+$$
+
+**2. At least one unit per strategy**
+
+We impose $x_i \ge 1$. Setting $y_i = x_i - 1$, we get $y_i \ge 0$ and $y_1 + \cdots + y_K = N - K$. By Stars and Bars,
+
+$$
+\boxed{\#\text{allocations} = \binom{N-1}{K-1}},
+$$
+
+valid for $N \ge K$ (otherwise, no allocation exists).

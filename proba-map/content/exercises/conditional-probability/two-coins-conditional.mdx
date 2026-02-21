@@ -1,0 +1,104 @@
+---
+id: "two-coins-conditional"
+title: "Two Coins in a Bag"
+difficulty: "Medium"
+patterns: ["conditional-probability"]
+tags: ["bayes", "total-probability", "conditional-independence"]
+---
+
+## Problem
+
+You have a bag containing two coins. The first coin lands Heads with probability $p_1$ and the second lands Heads with probability $p_2$. You pick a coin at random, flip it, and get Heads. What is the probability of getting Heads on the next flip?
+
+## Hints
+
+<Hint n={1}>
+	Start by using Bayes' theorem to find the probability that each coin was
+	chosen, given that the first flip landed Heads.
+</Hint>
+
+<Hint n={2}>
+	Once you have the posterior probabilities for each coin, use the law of total
+	probability to compute the chance of Heads on the second flip. Remember that
+	flips are conditionally independent given the coin.
+</Hint>
+
+## Solution
+
+**Bayes' theorem reminder:**
+
+For events $A$ and $B$ with $\mathbb{P}(B) > 0$:
+
+$$
+\mathbb{P}(A \mid B) = \frac{\mathbb{P}(B \mid A) \mathbb{P}(A)}{\mathbb{P}(B)}
+$$
+
+**Notation:**
+
+- $C_1$: event "coin 1 was chosen"
+- $C_2$: event "coin 2 was chosen"
+- $H_1$: event "the first flip lands Heads"
+- $H_2$: event "the second flip lands Heads"
+
+**Step 1: Probability of having chosen each coin given $H_1$**
+
+By Bayes' theorem:
+
+$$
+\mathbb{P}(C_1 \mid H_1) = \frac{\mathbb{P}(H_1 \mid C_1) \mathbb{P}(C_1)}{\mathbb{P}(H_1)}
+= \frac{p_1 \cdot \frac{1}{2}}{\mathbb{P}(H_1)}
+$$
+
+We compute $\mathbb{P}(H_1)$ using the law of total probability:
+
+$$
+\mathbb{P}(H_1) = \mathbb{P}(H_1 \mid C_1) \mathbb{P}(C_1) + \mathbb{P}(H_1 \mid C_2) \mathbb{P}(C_2)
+= p_1 \cdot \frac{1}{2} + p_2 \cdot \frac{1}{2}
+= \frac{p_1 + p_2}{2}
+$$
+
+Therefore:
+
+$$
+\mathbb{P}(C_1 \mid H_1) = \frac{p_1/2}{(p_1 + p_2)/2} = \frac{p_1}{p_1 + p_2}
+$$
+
+Similarly:
+
+$$
+\mathbb{P}(C_2 \mid H_1) = \frac{p_2}{p_1 + p_2}
+$$
+
+**Step 2: Probability of Heads on the second flip**
+
+Conditioning on the chosen coin:
+
+$$
+\mathbb{P}(H_2 \mid H_1) = \mathbb{P}(H_2 \mid H_1, C_1) \mathbb{P}(C_1 \mid H_1) + \mathbb{P}(H_2 \mid H_1, C_2) \mathbb{P}(C_2 \mid H_1)
+$$
+
+The flips are conditionally independent given the chosen coin, so:
+
+$$
+\mathbb{P}(H_2 \mid H_1, C_i) = \mathbb{P}(H_2 \mid C_i) = p_i
+$$
+
+Consequently:
+
+$$
+\mathbb{P}(H_2 \mid H_1) = p_1 \cdot \frac{p_1}{p_1 + p_2} + p_2 \cdot \frac{p_2}{p_1 + p_2}
+= \frac{p_1^2 + p_2^2}{p_1 + p_2}
+$$
+
+**Final answer:**
+
+$$
+\boxed{\mathbb{P}(H_2 \mid H_1) = \frac{p_1^2 + p_2^2}{p_1 + p_2}}
+$$
+
+**Verification -- special cases:**
+
+- If $p_1 = p_2 = p$: $\mathbb{P}(H_2 \mid H_1) = \frac{p^2 + p^2}{p + p} = \frac{2p^2}{2p} = p$ -- OK
+- If $p_1 = 1, p_2 = 0$: $\mathbb{P}(H_2 \mid H_1) = \frac{1 + 0}{1 + 0} = 1$ -- OK (we know we have coin 1)
+
+**Interpretation:** Observing Heads on the first flip gives us information about which coin was likely chosen. The coin with the larger $p_i$ becomes more probable, which increases the probability of getting Heads on the next flip.

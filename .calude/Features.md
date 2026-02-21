@@ -23,5 +23,9 @@
         - exos from the book : fifty challenging problems in probabilty
         - design from the Quest in leetcode
 
+    - session exam for mock-interview :
+        - simple session with time and random exos
+        - advance with IA like a real interview ???
+
 - **Better to have:**
     - the possiblity to comment in exo : comminuty
