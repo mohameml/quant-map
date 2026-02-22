@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import {
+    TOPIC_SLUGS,
     TopicFrontmatterSchema,
     ExerciseFrontmatterSchema,
     type Topic,
@@ -33,6 +34,8 @@ export function getAllTopics(): Topic[] {
 
 // ─── Exercises ────────────────────────────────────────────────────────────────
 
+const DIFFICULTY_ORDER = { Easy: 0, Medium: 1, Hard: 2 } as const;
+
 export function getAllExercises(): Exercise[] {
     const patternDirs = fs
         .readdirSync(EXERCISES_DIR, { withFileTypes: true })
@@ -42,6 +45,15 @@ export function getAllExercises(): Exercise[] {
     const exercises: Exercise[] = [];
 
     for (const patternDir of patternDirs) {
+        // Validate that the directory name is a known TopicSlug
+        if (!(TOPIC_SLUGS as readonly string[]).includes(patternDir)) {
+            throw new Error(
+                `exercises/${patternDir} is not a valid topic slug. ` +
+                    `Expected one of: ${TOPIC_SLUGS.join(", ")}`,
+            );
+        }
+
+        const primaryPattern = patternDir as TopicSlug;
         const dirPath = path.join(EXERCISES_DIR, patternDir);
         const files = fs.readdirSync(dirPath).filter((f) => f.endsWith(".mdx"));
 
@@ -55,32 +67,58 @@ export function getAllExercises(): Exercise[] {
             exercises.push({
                 ...frontmatter,
                 slug,
-                primaryPattern: patternDir,
+                primaryPattern,
                 body: content,
             });
         }
     }
 
-    // Sort by difficulty within each call site (Easy → Medium → Hard)
-    const ORDER = { Easy: 0, Medium: 1, Hard: 2 } as const;
-    return exercises.sort((a, b) => ORDER[a.difficulty] - ORDER[b.difficulty]);
+    return exercises.sort(
+        (a, b) =>
+            DIFFICULTY_ORDER[a.difficulty] - DIFFICULTY_ORDER[b.difficulty],
+    );
 }
 
 // ─── In-memory index (built once per process) ─────────────────────────────────
 
 let _index: Map<string, Exercise> | null = null;
+let _byPattern: Map<TopicSlug, Exercise[]> | null = null;
 
-function getExerciseIndex(): Map<string, Exercise> {
-    if (_index) return _index;
+function buildIndex(): void {
     const all = getAllExercises();
     _index = new Map(all.map((ex) => [ex.id, ex]));
-    return _index;
+
+    _byPattern = new Map();
+    for (const slug of TOPIC_SLUGS) {
+        _byPattern.set(slug, []);
+    }
+    for (const ex of all) {
+        for (const pattern of ex.patterns) {
+            _byPattern.get(pattern)!.push(ex);
+        }
+    }
+}
+
+function ensureIndex(): void {
+    if (!_index || !_byPattern) buildIndex();
 }
 
 export function getExerciseBySlug(slug: string): Exercise | null {
-    return getExerciseIndex().get(slug) ?? null;
+    ensureIndex();
+    return _index!.get(slug) ?? null;
 }
 
 export function getExercisesByPattern(patternSlug: TopicSlug): Exercise[] {
-    return getAllExercises().filter((ex) => ex.patterns.includes(patternSlug));
+    ensureIndex();
+    return _byPattern!.get(patternSlug) ?? [];
+}
+
+/**
+ * Returns all exercises grouped by topic slug.
+ * Reads files only once — use this in page components instead of
+ * calling getExercisesByPattern() in a loop.
+ */
+export function getExercisesByTopic(): Record<TopicSlug, Exercise[]> {
+    ensureIndex();
+    return Object.fromEntries(_byPattern!) as Record<TopicSlug, Exercise[]>;
 }

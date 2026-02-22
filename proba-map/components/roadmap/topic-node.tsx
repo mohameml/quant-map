@@ -2,6 +2,7 @@
 
 import { memo } from "react";
 import { Handle, Position, type NodeProps } from "@xyflow/react";
+import { Progress } from "@/components/ui/progress";
 import type { TopicNodeData } from "@/lib/graph";
 import { cn } from "@/lib/utils";
 
@@ -13,16 +14,20 @@ function getProgressState(solved: number, total: number): ProgressState {
     return "in-progress";
 }
 
-const BORDER_COLORS: Record<ProgressState, string> = {
-    "not-started": "border-gray-300 hover:border-gray-400",
-    "in-progress": "border-yellow-400 hover:border-yellow-500",
-    completed: "border-green-500 hover:border-green-600",
+// These reference the CSS variables defined in globals.css
+const BORDER_CLASSES: Record<ProgressState, string> = {
+    "not-started":
+        "border-[var(--progress-not-started-border)] hover:border-[var(--progress-not-started-border-hover)]",
+    "in-progress":
+        "border-[var(--progress-in-progress-border)] hover:border-[var(--progress-in-progress-border-hover)]",
+    completed:
+        "border-[var(--progress-completed-border)] hover:border-[var(--progress-completed-border-hover)]",
 };
 
-const BAR_COLORS: Record<ProgressState, string> = {
-    "not-started": "bg-gray-200",
-    "in-progress": "bg-yellow-400",
-    completed: "bg-green-500",
+const PROGRESS_INDICATOR_CLASS: Record<ProgressState, string> = {
+    "not-started": "[&>div]:bg-[var(--progress-not-started-bar)]",
+    "in-progress": "[&>div]:bg-[var(--progress-in-progress-bar)]",
+    completed: "[&>div]:bg-[var(--progress-completed-bar)]",
 };
 
 type TopicNodeProps = NodeProps & {
@@ -33,6 +38,7 @@ export const TopicNode = memo(function TopicNode({ data }: TopicNodeProps) {
     const { label, exerciseCount, solvedCount } = data;
     const state = getProgressState(solvedCount, exerciseCount);
     const pct = exerciseCount > 0 ? (solvedCount / exerciseCount) * 100 : 0;
+    // const isEmpty = exerciseCount === 0;
 
     return (
         <>
@@ -44,22 +50,21 @@ export const TopicNode = memo(function TopicNode({ data }: TopicNodeProps) {
             <div
                 className={cn(
                     "flex w-55 cursor-pointer flex-col gap-1 rounded-lg border-2 bg-white px-3 py-2 shadow-sm transition-all duration-200 hover:shadow-md",
-                    BORDER_COLORS[state],
+                    BORDER_CLASSES[state],
+                    // isEmpty && "opacity-50",
                 )}
             >
                 <span className="truncate text-center text-[13px] font-medium text-gray-900">
                     {label}
                 </span>
                 <div className="flex items-center gap-2">
-                    <div className="h-1 flex-1 overflow-hidden rounded-full bg-gray-200">
-                        <div
-                            className={cn(
-                                "h-full rounded-full transition-all",
-                                BAR_COLORS[state],
-                            )}
-                            style={{ width: `${pct}%` }}
-                        />
-                    </div>
+                    <Progress
+                        value={pct}
+                        className={cn(
+                            "h-1 flex-1",
+                            PROGRESS_INDICATOR_CLASS[state],
+                        )}
+                    />
                     <span className="text-[11px] text-gray-500">
                         {solvedCount}/{exerciseCount}
                     </span>

@@ -49,6 +49,22 @@
 
 :root {
     --radius: 0.625rem;
+
+    /* Progress state colors */
+    --progress-not-started-border: oklch(0.872 0.01 258.338);
+    --progress-not-started-border-hover: oklch(0.707 0.022 261.325);
+    --progress-not-started-bar: oklch(0.872 0.01 258.338);
+    --progress-in-progress-border: oklch(0.795 0.184 86.047);
+    --progress-in-progress-border-hover: oklch(0.681 0.162 75.834);
+    --progress-in-progress-bar: oklch(0.795 0.184 86.047);
+    --progress-completed-border: oklch(0.627 0.194 149.214);
+    --progress-completed-border-hover: oklch(0.527 0.154 150.069);
+    --progress-completed-bar: oklch(0.627 0.194 149.214);
+
+    /* Graph edge */
+    --edge-color: #c8ccd2;
+
+    /* Already exist  */
     --background: oklch(1 0 0);
     --foreground: oklch(0.129 0.042 264.695);
     --card: oklch(1 0 0);

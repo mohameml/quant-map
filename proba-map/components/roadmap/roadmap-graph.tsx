@@ -16,7 +16,7 @@ import "@xyflow/react/dist/style.css";
 
 import { TopicNode } from "./topic-node";
 import { TopicSheet } from "./topic-sheet";
-import { useProgress } from "@/hooks/use-progress";
+import { useProgressContext } from "@/components/progress-provider";
 import type { Topic, Exercise } from "@/lib/schema";
 import type { TopicNodeData } from "@/lib/graph";
 
@@ -34,21 +34,16 @@ export function RoadmapGraph({
     exercisesByTopic: Record<string, Exercise[]>;
 }) {
     const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
-    const { isSolved, getProgress } = useProgress();
+    const { getProgress } = useProgressContext();
 
-    // Enrich nodes with progress data
+    // Enrich nodes with live progress data
     const enrichedNodes = useMemo(() => {
         return initialNodes.map((node) => {
             const exercises = exercisesByTopic[node.data.slug] ?? [];
-            const exerciseIds = exercises.map((ex) => ex.id);
-            const { solved } = getProgress(exerciseIds);
+            const { solved } = getProgress(exercises.map((ex) => ex.id));
             return {
                 ...node,
-                data: {
-                    ...node.data,
-                    exerciseCount: exercises.length,
-                    solvedCount: solved,
-                },
+                data: { ...node.data, solvedCount: solved },
             };
         });
     }, [initialNodes, exercisesByTopic, getProgress]);
@@ -56,7 +51,6 @@ export function RoadmapGraph({
     const [nodes, setNodes, onNodesChange] = useNodesState(enrichedNodes);
     const [edges, , onEdgesChange] = useEdgesState(initialEdges);
 
-    // Sync enriched nodes when progress changes
     useEffect(() => {
         setNodes(enrichedNodes);
     }, [enrichedNodes, setNodes]);
@@ -108,7 +102,6 @@ export function RoadmapGraph({
                 }}
                 topic={selectedTopic}
                 exercises={selectedExercises}
-                isSolved={isSolved}
             />
         </div>
     );

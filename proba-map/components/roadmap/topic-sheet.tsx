@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ExerciseTable } from "@/components/exercise-table";
+import { useProgressContext } from "@/components/progress-provider";
 import type { Topic, Exercise } from "@/lib/schema";
 
 export function TopicSheet({
@@ -20,21 +21,22 @@ export function TopicSheet({
     onOpenChange,
     topic,
     exercises,
-    isSolved,
 }: {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     topic: Topic | null;
     exercises: Exercise[];
-    isSolved: (id: string) => boolean;
 }) {
+    const { isSolved, getProgress } = useProgressContext();
+
     if (!topic) return null;
 
-    const solvedCount = exercises.filter((ex) => isSolved(ex.id)).length;
-    const total = exercises.length;
-    const pct = total > 0 ? (solvedCount / total) * 100 : 0;
+    const {
+        solved: solvedCount,
+        total,
+        ratio,
+    } = getProgress(exercises.map((ex) => ex.id));
 
-    // Find first unsolved exercise for "Continue Practice"
     const firstUnsolved = exercises.find((ex) => !isSolved(ex.id));
 
     return (
@@ -61,7 +63,7 @@ export function TopicSheet({
                                 {solvedCount}/{total} Completed
                             </span>
                         </div>
-                        <Progress value={pct} className="h-2" />
+                        <Progress value={ratio * 100} className="h-2" />
                     </div>
 
                     {/* Review Topic button */}
@@ -76,7 +78,7 @@ export function TopicSheet({
                     </Button>
 
                     {/* Exercise list */}
-                    <ExerciseTable exercises={exercises} isSolved={isSolved} />
+                    <ExerciseTable exercises={exercises} />
                 </div>
 
                 {/* Continue Practice — pinned to bottom */}

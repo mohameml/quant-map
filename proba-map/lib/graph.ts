@@ -1,6 +1,28 @@
 import dagre from "dagre";
 import type { Node, Edge } from "@xyflow/react";
-import type { Topic } from "./schema";
+import type { Topic, Exercise, TopicSlug } from "./schema";
+
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+const NODE_W = 220;
+const NODE_H = 60;
+
+const LAYOUT_CONFIG = {
+    rankdir: "TB",
+    nodesep: 60,
+    ranksep: 80,
+    marginx: 40,
+    marginy: 40,
+} as const;
+
+const EDGE_CONFIG = {
+    stroke: "var(--edge-color)",
+    strokeWidth: 2.5,
+    markerWidth: 15,
+    markerHeight: 15,
+} as const;
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 export type TopicNodeData = {
     label: string;
@@ -8,29 +30,27 @@ export type TopicNodeData = {
     exerciseCount: number;
 };
 
+// ─── buildGraph ───────────────────────────────────────────────────────────────
+
 /**
  * Builds React Flow nodes and edges from topic data using dagre auto-layout.
+ * Accepts a pre-grouped exercise map so exerciseCount is filled at build time.
  */
-export function buildGraph(topics: Topic[]): {
+export function buildGraph(
+    topics: Topic[],
+    exercisesByTopic: Record<string, Exercise[]>,
+): {
     nodes: Node<TopicNodeData>[];
     edges: Edge[];
 } {
     const g = new dagre.graphlib.Graph();
     g.setDefaultEdgeLabel(() => ({}));
-    g.setGraph({
-        rankdir: "TB",
-        nodesep: 60,
-        ranksep: 80,
-        marginx: 40,
-        marginy: 40,
-    });
+    g.setGraph(LAYOUT_CONFIG);
 
-    // Add nodes
     for (const topic of topics) {
-        g.setNode(topic.slug, { width: 220, height: 60 });
+        g.setNode(topic.slug, { width: NODE_W, height: NODE_H });
     }
 
-    // Add edges from prerequisites
     const edges: Edge[] = [];
     for (const topic of topics) {
         for (const prereq of topic.prerequisites) {
@@ -41,31 +61,33 @@ export function buildGraph(topics: Topic[]): {
                 source: prereq,
                 target: topic.slug,
                 type: "default",
-                style: { stroke: "#c8ccd2", strokeWidth: 2.5 },
+                style: {
+                    stroke: EDGE_CONFIG.stroke,
+                    strokeWidth: EDGE_CONFIG.strokeWidth,
+                },
                 markerEnd: {
                     type: "arrowclosed" as const,
-                    color: "#c8ccd2",
-                    width: 18,
-                    height: 18,
+                    color: EDGE_CONFIG.stroke,
+                    width: EDGE_CONFIG.markerWidth,
+                    height: EDGE_CONFIG.markerHeight,
                 },
             });
         }
     }
 
-    // Run dagre layout
     dagre.layout(g);
 
-    // Convert to React Flow nodes
     const nodes: Node<TopicNodeData>[] = topics.map((topic) => {
         const pos = g.node(topic.slug);
+        const exercises = exercisesByTopic[topic.slug as TopicSlug] ?? [];
         return {
             id: topic.slug,
             type: "topicNode",
-            position: { x: pos.x - 110, y: pos.y - 30 },
+            position: { x: pos.x - NODE_W / 2, y: pos.y - NODE_H / 2 },
             data: {
                 label: topic.title,
                 slug: topic.slug,
-                exerciseCount: 0, // filled by the page component
+                exerciseCount: exercises.length,
             },
         };
     });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
     Table,
     TableBody,
@@ -11,16 +11,20 @@ import {
 } from "@/components/ui/table";
 import { DifficultyBadge } from "@/components/difficulty-badge";
 import { StatusIcon } from "@/components/status-icon";
+import { useProgressContext } from "@/components/progress-provider";
 import type { Exercise } from "@/lib/schema";
 
-export function ExerciseTable({
-    exercises,
-    isSolved,
-}: {
-    exercises: Exercise[];
-    isSolved: (id: string) => boolean;
-}) {
-    const router = useRouter();
+export function ExerciseTable({ exercises }: { exercises: Exercise[] }) {
+    const { isSolved, markSolved, unmarkSolved } = useProgressContext();
+
+    function toggleStatus(e: React.MouseEvent, id: string) {
+        e.stopPropagation();
+        if (isSolved(id)) {
+            unmarkSolved(id);
+        } else {
+            markSolved(id);
+        }
+    }
 
     return (
         <Table>
@@ -41,26 +45,51 @@ export function ExerciseTable({
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {exercises.map((ex, i) => (
-                    <TableRow
-                        key={ex.id}
-                        className="cursor-pointer border-b border-gray-100 transition-colors hover:bg-gray-50"
-                        onClick={() => router.push(`/exercises/${ex.id}`)}
-                    >
-                        <TableCell className="py-4 text-gray-400">
-                            {i + 1}
-                        </TableCell>
-                        <TableCell className="py-4 font-medium">
-                            {ex.title}
-                        </TableCell>
-                        <TableCell className="py-4 text-center">
-                            <DifficultyBadge level={ex.difficulty} />
-                        </TableCell>
-                        <TableCell className="py-4 text-center">
-                            <StatusIcon solved={isSolved(ex.id)} />
+                {exercises.length === 0 ? (
+                    <TableRow>
+                        <TableCell
+                            colSpan={4}
+                            className="py-8 text-center text-gray-500"
+                        >
+                            No exercises yet.
                         </TableCell>
                     </TableRow>
-                ))}
+                ) : (
+                    exercises.map((ex, i) => (
+                        <TableRow
+                            key={ex.id}
+                            className="border-b border-gray-100 transition-colors hover:bg-gray-50"
+                        >
+                            <TableCell className="py-4 text-gray-400">
+                                {i + 1}
+                            </TableCell>
+                            <TableCell className="py-4 font-medium">
+                                <Link
+                                    href={`/exercises/${ex.id}`}
+                                    className="hover:underline"
+                                >
+                                    {ex.title}
+                                </Link>
+                            </TableCell>
+                            <TableCell className="py-4 text-center">
+                                <DifficultyBadge level={ex.difficulty} />
+                            </TableCell>
+                            <TableCell className="py-4 text-center">
+                                <button
+                                    onClick={(e) => toggleStatus(e, ex.id)}
+                                    className="cursor-pointer"
+                                    aria-label={
+                                        isSolved(ex.id)
+                                            ? "Mark as unsolved"
+                                            : "Mark as solved"
+                                    }
+                                >
+                                    <StatusIcon solved={isSolved(ex.id)} />
+                                </button>
+                            </TableCell>
+                        </TableRow>
+                    ))
+                )}
             </TableBody>
         </Table>
     );

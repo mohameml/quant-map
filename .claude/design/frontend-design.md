@@ -18,7 +18,3 @@ i want for now 3 pages :
 
     - and in the exercise pase we have also the solution but is cached and if the
       user click and it we show him the anser
-
-- primary color :
-    - jsut balck and white
-    - green for progress

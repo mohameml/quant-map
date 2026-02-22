@@ -56,6 +56,6 @@ export type ExerciseFrontmatter = z.infer<typeof ExerciseFrontmatterSchema>;
 // Enriched at runtime with file path info and MDX body
 export type Exercise = ExerciseFrontmatter & {
     slug: string; // = id (filename stem)
-    primaryPattern: string; // = parent directory name
+    primaryPattern: TopicSlug; // = parent directory name (validated)
     body: string; // raw MDX content
 };
