@@ -15,7 +15,7 @@ export function Navbar() {
     const pathname = usePathname();
 
     return (
-        <header className="sticky top-0 z-50 h-14 border-b bg-white">
+        <header className="sticky top-0 z-50 h-14 border-b border-gray-100 shadow-sm">
             <nav className="mx-auto flex h-full max-w-screen-2xl items-center px-6">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2">
@@ -36,7 +36,7 @@ export function Navbar() {
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    "relative px-4 py-2 text-sm font-medium transition-colors",
+                                    "relative px-4 py-3 text-sm font-medium transition-colors  duration-200",
                                     isActive
                                         ? "text-green-600"
                                         : "text-gray-500 hover:text-gray-900",

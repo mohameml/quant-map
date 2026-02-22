@@ -67,26 +67,26 @@ import json
 from graphviz import Digraph
 
 topics = [
-  ("combinatorics", "Combinatorics"),
-  # ("fundamentals", "Fundamentals of Probability"),
-  ("random-variables", "Random Variables"),
-  ("conditional-probability", "Conditional Probability"),
-  ("discrete-distributions", "Discrete Distributions"),
-  ("continuous-distributions", "Continuous Distributions"),
-  ("joint-distributions", "Joint Distributions & Random Vectors"),
-  # ("convergence", "Convergence"),
-  ("simulation", "Simulation & Monte Carlo"),
-  ("markov-chains", "Markov Chains"),
-  ("statistics", "Statistical Inference"),
-  ("time-series", "Time Series"),
-  # ("conditional-expectation", "Conditional Expectation"),
-  ("brownian-motion", "Brownian Motion"),
-  ("martingales", "Martingales"),
-  ("stopping-times", "Stopping Times"),
-  ("calcul-sto" , "Calcul Stochastiques"),
+    ("combinatorics", "Combinatorics"),
+    # ("fundamentals", "Fundamentals of Probability"),
+    ("random-variables", "Random Variables"),
+    ("conditional-probability", "Conditional Probability"),
+    ("discrete-distributions", "Discrete Distributions"),
+    ("continuous-distributions", "Continuous Distributions"),
+    ("joint-distributions", "Joint Distributions & Random Vectors"),
+    # ("convergence", "Convergence"),
+    ("simulation", "Simulation & Monte Carlo"),
+    ("markov-chains", "Markov Chains"),
+    ("statistics", "Statistical Inference"),
+    ("time-series", "Time Series"),
+    # ("conditional-expectation", "Conditional Expectation"),
+    ("brownian-motion", "Brownian Motion"),
+    ("martingales", "Martingales"),
+    ("stopping-times", "Stopping Times"),
+    ("calcul-sto" , "Calcul Stochastiques"),
 
-  # ("ito-calculus", "Itô Calculus"),
-  # ("sdes", "Stochastic Differential Equations"),
+    # ("ito-calculus", "Itô Calculus"),
+    # ("sdes", "Stochastic Differential Equations"),
 ]
 
 # deps = {
@@ -154,24 +154,20 @@ topics = [
 # }
 
 deps = {
-  "combinatorics": [],
-  "random-variables": ["combinatorics"],
-  "conditional-probability": ["random-variables"],
-  "discrete-distributions": ["random-variables"],
-  "continuous-distributions": ["random-variables"],
-  "joint-distributions": ["continuous-distributions"],  
-  # "convergence": ["discrete-distributions" ,"continuous-distributions" ],
-  "simulation": ["joint-distributions"],
-  "markov-chains": ["conditional-probability"],
-  "statistics": ["continuous-distributions" , "discrete-distributions"],  
-  "time-series": ["statistics"],
-  # "conditional-expectation": ["conditional-probability"],
-  "brownian-motion": ["continuous-distributions"],
-  "martingales": ["brownian-motion"],
-  "stopping-times": ["martingales"],
-  "calcul-sto" : ["brownian-motion"],
-  # "ito-calculus": ["martingales"],  
-  # "sdes": ["ito-calculus"],
+    "combinatorics": [],
+    "random-variables": ["combinatorics"],
+    "conditional-probability": ["random-variables"],
+    "discrete-distributions": ["random-variables"],
+    "continuous-distributions": ["random-variables"],
+    "joint-distributions": ["continuous-distributions"],  
+    "simulation": ["joint-distributions"],
+    "markov-chains": ["conditional-probability"],
+    "statistics": ["continuous-distributions" , "discrete-distributions"],  
+    "time-series": ["statistics"],
+    "brownian-motion": ["continuous-distributions"],
+    "martingales": ["brownian-motion"],
+    "stopping-times": ["martingales"],
+    "calcul-sto" : ["brownian-motion"],
 
 }
 
@@ -183,32 +179,32 @@ dot.attr("edge", color="#2C5F7C", arrowsize="0.8") #  , penwidth="1.5"
 
 # Color coding by section
 colors = {
-  "fondations": "#E8F4F8",      # Light blue
-  "convergence": "#FFF4E6",     # Light orange
-  "discrets": "#E8F5E9",        # Light green
-  "continus": "#F3E5F5",        # Light purple
-  "stochastique": "#FFE8E8",    # Light red
+    "fondations": "#E8F4F8",      # Light blue
+    "convergence": "#FFF4E6",     # Light orange
+    "discrets": "#E8F5E9",        # Light green
+    "continus": "#F3E5F5",        # Light purple
+    "stochastique": "#FFE8E8",    # Light red
 }
 
 section_map = {
-  "combinatorics": "fondations",
-  "fundamentals": "fondations",
-  "random-variables": "fondations",
-  "conditional-probability": "fondations",
-  "discrete-distributions": "fondations",
-  "continuous-distributions": "fondations",
-  "joint-distributions": "fondations",
-  "convergence": "convergence",
-  "simulation": "convergence",
-  "markov-chains": "discrets",
-  "statistics": "discrets",
-  "time-series": "discrets",
-  "conditional-expectation": "continus",
-  "brownian-motion": "continus",
-  "martingales": "continus",
-  "stopping-times": "continus",
-  "ito-calculus": "stochastique",
-  "sdes": "stochastique",
+    "combinatorics": "fondations",
+    "fundamentals": "fondations",
+    "random-variables": "fondations",
+    "conditional-probability": "fondations",
+    "discrete-distributions": "fondations",
+    "continuous-distributions": "fondations",
+    "joint-distributions": "fondations",
+    "convergence": "convergence",
+    "simulation": "convergence",
+    "markov-chains": "discrets",
+    "statistics": "discrets",
+    "time-series": "discrets",
+    "conditional-expectation": "continus",
+    "brownian-motion": "continus",
+    "martingales": "continus",
+    "stopping-times": "continus",
+    "ito-calculus": "stochastique",
+    "sdes": "stochastique",
 }
 
 for tid, label in topics:

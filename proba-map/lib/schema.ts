@@ -6,23 +6,19 @@ import { z } from "zod";
 
 export const TOPIC_SLUGS = [
     "combinatorics",
-    "fundamentals",
     "random-variables",
     "conditional-probability",
     "discrete-distributions",
     "continuous-distributions",
     "joint-distributions",
-    "convergence",
     "simulation",
     "markov-chains",
     "statistics",
     "time-series",
-    "conditional-expectation",
     "brownian-motion",
     "martingales",
     "stopping-times",
-    "ito-calculus",
-    "sdes",
+    "calcul-sto",
 ] as const;
 
 export type TopicSlug = (typeof TOPIC_SLUGS)[number];
@@ -35,13 +31,6 @@ export const TopicFrontmatterSchema = z.object({
     description: z.string(),
     prerequisites: z.array(z.enum(TOPIC_SLUGS)),
     order: z.number().int().positive(),
-    section: z.enum([
-        "fondations",
-        "convergence",
-        "discrets",
-        "continus",
-        "stochastique",
-    ]),
 });
 
 export type TopicFrontmatter = z.infer<typeof TopicFrontmatterSchema>;

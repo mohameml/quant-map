@@ -30,7 +30,7 @@ export function ExerciseTable({
                         #
                     </TableHead>
                     <TableHead className="py-3 text-xs font-semibold text-gray-500">
-                        Problem Name
+                        Title
                     </TableHead>
                     <TableHead className="w-20 py-3 text-center text-xs font-semibold text-gray-500">
                         Difficulty
